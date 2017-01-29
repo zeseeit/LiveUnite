@@ -261,7 +261,7 @@ public class LiveUnitePushReceiver extends GcmListenerService {
             JSONObject object = new JSONObject(response);
 
             String selfId = LiveUnite.getInstance().getPreferenceManager().getFbId(); // fbId as user id
-            String chatRoomId = createChatId(selfId, object.getString("sender_id"));
+            String chatRoomId = createChatId(selfId, object.getString("sender_id"),object.getString("type"));
             String receivedTime = LiveUniteTime.getInstance().getDateTime();
 
             Log.d("PushReceiver", "ChatRoomId=>" + chatRoomId + " SenderId =>" + object.getString("sender_id"));
@@ -327,8 +327,10 @@ public class LiveUnitePushReceiver extends GcmListenerService {
 
     }
 
-    private String createChatId(String selfId, String companionId) {
-        return "cr_" + selfId + companionId;
+    private String createChatId(String selfId, String companionId,String type) {
+
+        String HelpQueryPrefix = type.equals(Constants.CHAT.TYPE_QUERY) ? "HelpRoomQuery":"ChatCommons";
+        return "cr_"+ HelpQueryPrefix+"_"+ selfId + companionId;
     }
 
 }

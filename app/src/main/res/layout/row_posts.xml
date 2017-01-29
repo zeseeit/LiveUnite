@@ -69,16 +69,10 @@
         android:layout_marginTop="8dp"
         android:src="@drawable/fbavatat"/>
 
-    <TextView
-        android:textColor="@color/colorPrimary"
-        android:text="Hello Ankit"
-        android:id="@+id/tvCaption"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        />
 
     <RelativeLayout
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -108,16 +102,29 @@
             android:textStyle="bold"
             />
 
+
+        <TextView
+            android:layout_below="@+id/tvName"
+            android:textColor="@color/colorPrimary"
+            android:text="Hello Ankit"
+            android:id="@+id/tvCaption"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            />
+
         <TextView
             android:background="@drawable/bottom_toolbar_buttons_states"
             android:id="@+id/tvChat"
-            android:gravity="center"
             android:text=""
             android:textSize="24sp"
             android:textColor="@color/colorPrimary"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:padding="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

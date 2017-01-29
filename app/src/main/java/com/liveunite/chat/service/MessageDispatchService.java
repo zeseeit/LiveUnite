@@ -102,6 +102,8 @@ public class MessageDispatchService extends Service {
 
         String receiver_id = DatabaseHelper.getInstance(this).getGcmID(msg.receiverId);
 
+        String msg_type = (msg.chatRoomID.charAt(3)=='H')?Constants.CHAT.TYPE_QUERY:"Commons";
+
         final String jsonBody = (new ModelToJsonConverter()).getNewMessagePushModelJson(new PushMessageModel(
                 receiver_id,
                 Constants.PUSH.TYPE_NEW_MESSAGE,
@@ -110,7 +112,8 @@ public class MessageDispatchService extends Service {
                 msg.senderDpUrl,
                 msg.message,
                 msg.sentTime,
-                msg.chatId
+                msg.chatId,
+                msg_type
         ));
 
         StringRequest sendChatReq = new StringRequest(Request.Method.POST,

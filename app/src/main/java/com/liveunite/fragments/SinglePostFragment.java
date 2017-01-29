@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.liveunite.LiveUniteMains.LiveUnite;
 import com.liveunite.interfaces.LiveUniteApi;
 import com.liveunite.models.DeletePostRequest;
 import com.liveunite.models.DeletePostResponce;
@@ -67,6 +68,7 @@ public class SinglePostFragment extends BottomSheetDialogFragment implements Vie
         }
     };
 
+
     @Override
     public void setupDialog(final Dialog dialog, int style) {
         super.setupDialog(dialog, style);
@@ -77,7 +79,16 @@ public class SinglePostFragment extends BottomSheetDialogFragment implements Vie
         initView(contentView);
         this.dialog = dialog;
         ivDismiss.setOnClickListener(this);
-        ivDelete.setOnClickListener(this);
+
+        if(!LiveUnite.getInstance().getPreferenceManager().isProfileOwner()){
+            //ownership isn`t mine
+            ivDelete.setVisibility(View.GONE);
+
+        }else{
+            ivDelete.setVisibility(View.VISIBLE);
+            ivDelete.setOnClickListener(this);
+        }
+
         ivDownload.setOnClickListener(this);
         setData();
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) ((View) contentView.getParent()).getLayoutParams();
@@ -163,6 +174,7 @@ public class SinglePostFragment extends BottomSheetDialogFragment implements Vie
     }
 
     private void delete() {
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Urls.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())

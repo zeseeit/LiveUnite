@@ -7,12 +7,15 @@ import android.graphics.PorterDuff;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 
+import com.liveunite.LiveUniteMains.LiveUnite;
 import com.liveunite.R;
 import com.liveunite.utils.ChangeActivity;
 import com.liveunite.utils.Constant;
@@ -23,6 +26,7 @@ public class AppSetting extends AppCompatActivity implements View.OnClickListene
 
     Button bLogOut,bShare,bTerms;
     Context context;
+    SwitchCompat soundSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,26 @@ public class AppSetting extends AppCompatActivity implements View.OnClickListene
         bShare.setOnClickListener(this);
         bTerms = (Button)findViewById(R.id.bTerms);
         bTerms.setOnClickListener(this);
+        soundSwitch = (SwitchCompat) findViewById(R.id.scSound);
+
+        if(LiveUnite.getInstance().getPreferenceManager().getNotificationSoundChoice()){
+            soundSwitch.setChecked(true);
+        }else{
+            soundSwitch.setChecked(false);
+        }
+
+        soundSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean byUser) {
+
+                    if(compoundButton.isChecked()){
+                        LiveUnite.getInstance().getPreferenceManager().turnNotificationSound(true);
+                    }else{
+                        LiveUnite.getInstance().getPreferenceManager().turnNotificationSound(false);
+                    }
+
+            }
+        });
         buttonEffect(bShare);
     }
 

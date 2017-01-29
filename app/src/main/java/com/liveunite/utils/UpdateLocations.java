@@ -34,9 +34,6 @@ public class UpdateLocations {
 
         if (checkGpsEnabled())
         {
-            UserLocationModal userLocationModal = new UserLocationModal();
-            userLocationModal.setLatitude(gps.getLatitude());
-            userLocationModal.setLongitude(gps.getLongitude());
             // Toast.makeText(context, gps.getLatitude() + " " + gps.getLongitude(), Toast.LENGTH_LONG).show();
             if (gps.getLongitude() == 0.0 || gps.getLongitude() ==0.0)
             {
@@ -47,7 +44,11 @@ public class UpdateLocations {
 
             }
 
-           // LiveUnite.getInstance().getPreferenceManager().setLat(userLocationModal.getLatitude()+"");
+            UserLocationModal userLocationModal = new UserLocationModal();
+            userLocationModal.setLatitude(gps.getLatitude());
+            userLocationModal.setLongitude(gps.getLongitude());
+
+            // LiveUnite.getInstance().getPreferenceManager().setLat(userLocationModal.getLatitude()+"");
            // LiveUnite.getInstance().getPreferenceManager().setLong(userLocationModal.getLongitude()+"");
             Singleton.getInstance().setUserLocationModal(userLocationModal);
 

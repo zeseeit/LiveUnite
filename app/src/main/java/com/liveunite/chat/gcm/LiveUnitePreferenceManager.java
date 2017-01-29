@@ -36,6 +36,14 @@ public class LiveUnitePreferenceManager {
         editor = pref.edit();
     }
 
+    public boolean homeIconCreated(){
+        return pref.getBoolean("isHomeCreated",false);
+    }
+
+    public void setHomeIconCreated(boolean created){
+        editor.putBoolean("isHomeCreated",created);
+    }
+
     public void clearNotifications() {
         editor.putString(KEY_NOTIFICATIONS, "");
         editor.commit();
@@ -271,5 +279,22 @@ public class LiveUnitePreferenceManager {
 
     public float getMaxDistance() {
         return pref.getFloat("maxDist",10000);
+    }
+
+    public void turnNotificationSound(boolean notificationSound) {
+        editor.putBoolean("nsound",notificationSound);
+        editor.commit();
+    }
+
+    public boolean getNotificationSoundChoice(){
+        return pref.getBoolean("nsound",true);
+    }
+
+    public void setIsProfileOwner(boolean isOwner) {
+        editor.putBoolean("profileOwner",isOwner);
+        editor.commit();
+    }
+    public boolean isProfileOwner(){
+        return pref.getBoolean("profileOwner",false);
     }
 }

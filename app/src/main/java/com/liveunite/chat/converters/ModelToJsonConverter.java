@@ -23,6 +23,7 @@ public class ModelToJsonConverter {
                 "\"data\":{ \"push_type\":"+ Constants.PUSH.TYPE_NEW_MESSAGE+","+
                 "\"payload\":{ \"sender_id\":\""+pushMessageModel.senderId+"\"," +
                 "\"msg\":\""+pushMessageModel.message+"\"," +
+                "\"type\":\""+pushMessageModel.type+"\"," +
                 "\"sender_title\":\""+pushMessageModel.senderTitle+"\"," +
                 "\"sender_dp_url\":\""+pushMessageModel.senderDpUrl+"\"," +
                 "\"sent_time\":\""+pushMessageModel.sentTime+"\"," +

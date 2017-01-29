@@ -14,8 +14,11 @@ public class PushMessageModel {
     public String message;
     public String sentTime;
     public String msg_id;
+    public String type;
 
-    public PushMessageModel(String to, int pushType, String senderId, String senderTitle, String senderDpUrl, String message, String sentTime, String msg_id) {
+    public PushMessageModel(String to, int pushType, String senderId, String senderTitle, String senderDpUrl, String message, String sentTime, String msg_id,String type) {
+
+        this.type= type;
         this.to = to;
         this.pushType = pushType;
         this.senderId = senderId;
@@ -24,6 +27,15 @@ public class PushMessageModel {
         this.message = message;
         this.sentTime = sentTime;
         this.msg_id = msg_id;
+
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getTo() {

@@ -62,8 +62,13 @@ public class LiveUniteNotificationUtils {
                 + "://" + mContext.getPackageName() + "/raw/notification");
 
             showSmallNotification(mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
-            if(LiveUnite.getInstance().getPreferenceManager().isNotificationMuted())
+
+            if(LiveUnite.getInstance().getPreferenceManager().getNotificationSoundChoice()) {
                 playNotificationSound();
+            }
+
+
+
     }
 
     private void showSmallNotification(NotificationCompat.Builder mBuilder, int icon, String title, String message, String timeStamp, PendingIntent resultPendingIntent, Uri alarmSound) {
@@ -92,7 +97,6 @@ public class LiveUniteNotificationUtils {
                 .setAutoCancel(true)
                 .setContentTitle(title)
                 .setContentIntent(resultPendingIntent)
-                .setSound(alarmSound)
                 .setStyle(inboxStyle)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))

@@ -44,7 +44,7 @@ public class LiveUnite extends Application {
         new Optimizer().logTime("LiveUnite: onCreate()");
 
         mInstance = this;
-        new HomeLaucherSetup().setHome(this);
+
         registerGCM();
 
         startLiveReporterService();
@@ -72,6 +72,10 @@ public class LiveUnite extends Application {
     public LiveUnitePreferenceManager getPreferenceManager(){
         if(preferenceManager==null){
             preferenceManager = new LiveUnitePreferenceManager(mInstance);
+            if(!preferenceManager.homeIconCreated()){
+                new HomeLaucherSetup().setHome(this);
+
+            }
         }
         return preferenceManager;
     }

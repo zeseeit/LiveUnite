@@ -51,6 +51,7 @@ public class Constants {
         int FLAG_RELOCATION_TYPE_DELIVERED = 112;
         int FLAG_RELOCATION_TYPE_SEEN = 113;
         int HANDLER_ARGS_FLAG_CLEAR_OLD = 119;
+        public String TYPE_QUERY = "Query";
     }
 
     public interface USER {

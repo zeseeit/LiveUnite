@@ -268,6 +268,7 @@ public class MomentsFragment extends Fragment {
             public void onClick(View view) {
                 progressBar.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.VISIBLE);
+                errorPanel.setVisibility(View.GONE);
                 load(0);
             }
         });

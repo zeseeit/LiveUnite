@@ -56,6 +56,7 @@ public class ViewProfile extends AppCompatActivity implements SinglePostFragment
     private LiveUniteApi liveUniteApi;
     FeedsRequest feedsRequest = new FeedsRequest();
     private boolean isMoreDataAvailable = true;
+    private boolean isOwner = false;
 
 
     public ViewProfile() {
@@ -75,10 +76,15 @@ public class ViewProfile extends AppCompatActivity implements SinglePostFragment
         setUpToolbar();
 
         if(getIntent().getExtras()!=null){
+            //others
             profileUserFbId = getIntent().getExtras().getString("fbId");
+
         }else{
             profileUserFbId = LiveUnite.getInstance().getPreferenceManager().getFbId();
+
         }
+
+        LiveUnite.getInstance().getPreferenceManager().setIsProfileOwner(profileUserFbId.equals(LiveUnite.getInstance().getPreferenceManager().getFbId()));
 
     }
 

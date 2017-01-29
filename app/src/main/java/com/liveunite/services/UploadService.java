@@ -98,7 +98,7 @@ public class UploadService extends IntentService {
         }
 
 
-        Log.d("UploadService"," locate at "+Singleton.getInstance().getUserLocationModal().getLongitude()+" lat "+Singleton.getInstance().getUserLocationModal().getLatitude());
+        Log.d("UploadService"," locate at long:- "+Singleton.getInstance().getUserLocationModal().getLongitude()+" lat "+Singleton.getInstance().getUserLocationModal().getLatitude());
 
         Call<ArrayList<UploadResponse>> call = upload.postImage(
                 body,
@@ -107,8 +107,8 @@ public class UploadService extends IntentService {
                 LiveUnite.getInstance().getPreferenceManager().getFbId(),
                 Singleton.getInstance().getUserDetails().getAndroidAppToken(),
                 OpenCameraType.getInstance().isOpenPostCamera()
-                , String.valueOf(Singleton.getInstance().getUserLocationModal().getLatitude()),
-                String.valueOf(Singleton.getInstance().getUserLocationModal().getLongitude()),file!=null);
+                , String.valueOf(Singleton.getInstance().getUserLocationModal().getLongitude()),
+                String.valueOf(Singleton.getInstance().getUserLocationModal().getLatitude()),file!=null);
 
         Log.e("UploadServiceCameraType","User Id: - "+LiveUnite.getInstance().getPreferenceManager().getLiveUnitId()+" FbId : - " +
                 LiveUnite.getInstance().getPreferenceManager().getFbId());

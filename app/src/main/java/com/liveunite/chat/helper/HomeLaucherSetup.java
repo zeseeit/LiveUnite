@@ -3,6 +3,7 @@ package com.liveunite.chat.helper;
 import android.content.Context;
 import android.content.Intent;
 
+import com.liveunite.LiveUniteMains.LiveUnite;
 import com.liveunite.R;
 
 /**
@@ -16,6 +17,9 @@ public class HomeLaucherSetup {
 
     public void setHome(Context context) {
 
+        if(LiveUnite.getInstance().getPreferenceManager().homeIconCreated())
+            return;
+
         Intent shortcutIntent = new Intent();
         shortcutIntent.setClassName("com.liveunite", "com.liveunite.activities.Splash");
         Intent addIntent = new Intent();
@@ -25,6 +29,8 @@ public class HomeLaucherSetup {
         addIntent.putExtra("duplicate", false);
         addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
         context.sendBroadcast(addIntent);
+
+        LiveUnite.getInstance().getPreferenceManager().setHomeIconCreated(true);
 
     }
 }
