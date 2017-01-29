@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "258435349689",
+    "firebase_url": "https://liveunite-37d35.firebaseio.com",
+    "project_id": "liveunite-37d35",
+    "storage_bucket": "liveunite-37d35.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:258435349689:android:b1a3e71d600ae54a",
+        "android_client_info": {
+          "package_name": "com.example.vishwesh.liveunite"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "258435349689-gh9vr471ohivhm7t5sknmdglb23b3gfg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDK24VvKjWTYjkdOg8QwbJpyRxEbN30_Bc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:258435349689:android:e0b891654fbf5eca",
+        "android_client_info": {
+          "package_name": "com.liveunite"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "258435349689-gh9vr471ohivhm7t5sknmdglb23b3gfg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDK24VvKjWTYjkdOg8QwbJpyRxEbN30_Bc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,8 @@
+LiveUnite Issues:
+
+> Duplicate icons
+> Multiple chat room <inconsistent>
+> profile able to delete others photo
+> moments feed ui improvement
+> notification sound
+

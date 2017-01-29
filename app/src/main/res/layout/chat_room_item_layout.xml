@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:background="#33eeeeee">
+
+    <FrameLayout
+        android:layout_marginLeft="56dp"
+        android:background="#dddddd"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+
+    <FrameLayout
+        android:layout_marginLeft="56dp"
+        android:background="#dddddd"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        />
+
+    <FrameLayout
+        android:id="@+id/chatRoomThumbnailWrapper"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:padding="4dp">
+
+        <ImageView
+            android:id="@+id/chatRoomThumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/unread_count_ticker_bg" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/topWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:layout_toRightOf="@+id/chatRoomThumbnailWrapper"
+        android:orientation="horizontal"
+        android:weightSum="6">
+
+        <TextView
+            android:id="@+id/chatRoomTitle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:gravity="center_vertical"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:text="Team LiveUnite"
+            android:textColor="#cc000000"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+        <FrameLayout
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_weight="1"
+            android:padding="4dp">
+
+            <TextView
+                android:id="@+id/unReadCounter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/unread_count_ticker_bg"
+                android:gravity="center"
+                android:lines="1"
+                android:padding="2dp"
+                android:text="4"
+                android:textColor="#ffffff"
+                android:textSize="10dp"
+                android:visibility="gone" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:layout_below="@+id/topWrapper"
+        android:layout_toRightOf="@+id/chatRoomThumbnailWrapper"
+        android:orientation="horizontal"
+        android:weightSum="8">
+
+        <TextView
+            android:id="@+id/lastMessageStatus"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:gravity="center_horizontal"
+            android:text="t"
+            android:textColor="@color/colorPrimaryDark"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/lastMessage"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="6.5"
+            android:lines="1"
+            android:paddingTop="4dp"
+            android:text="Hi Ankit Kumar How Are You? I am fine and fit"
+            android:textColor="#008888"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/chatRoomTime"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:gravity="center_horizontal"
+            android:text=""
+            android:textColor="@color/colorPrimary"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

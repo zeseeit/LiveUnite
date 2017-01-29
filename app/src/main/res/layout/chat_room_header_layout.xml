@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="#006666"
+    android:layout_height="64dp">
+
+    <FrameLayout
+        android:padding="6dp"
+        android:id="@+id/dpWrapper"
+        android:layout_width="64dp"
+        android:layout_height="64dp">
+
+        <ImageView
+            android:id="@+id/chatRoomCompanionDp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+    <TextView
+        android:layout_toRightOf="@+id/dpWrapper"
+        android:gravity="bottom"
+        android:textSize="18sp"
+        android:textColor="#ffffff"
+        android:text="Ankit Kumar"
+        android:textStyle="bold"
+        android:lines="1"
+        android:maxLength="25"
+        android:id="@+id/chatRoomCompanionTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp" />
+
+    <TextView
+        android:layout_toRightOf="@+id/dpWrapper"
+        android:layout_below="@+id/chatRoomCompanionTitle"
+        android:textSize="12sp"
+        android:textColor="#ffffff"
+        android:text=""
+        android:lines="1"
+        android:maxLength="25"
+        android:id="@+id/chatRoomCompanionLastSeenStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp" />
+
+</RelativeLayout>

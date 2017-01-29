@@ -1,0 +1,23 @@
+I/AppOptimizerTest:  At:LiveUnite: onCreate() Current Time: 1484737686360
+I/AppOptimizerTest:  At:LiveUnite: > registerGCM()  Current Time: 1484737686364
+I/AppOptimizerTest:  At:LiveUnite: > checkPlayServices()  Current Time: 1484737686364
+I/AppOptimizerTest:  At:LiveUnite: checkPlayServices() > Current Time: 1484737686366
+I/AppOptimizerTest:  At:LiveUnite: registerGCM() > Current Time: 1484737686372
+I/AppOptimizerTest:  At:LiveUnite: > startLiveReporterService()  Current Time: 1484737686372
+I/AppOptimizerTest:  At:LiveUnite: startLiveReporterService() > Current Time: 1484737686374
+I/AppOptimizerTest:  At:LiveUnite: onCreate() >  Current Time: 1484737686374
+
+I/AppOptimizerTest:  At:Splash: onCreate() > fbInit Current Time: 1484737686496
+I/AppOptimizerTest:  At:Splash: onCreate() > fbInit done  Current Time: 1484737686517
+I/AppOptimizerTest:  At:Splash:  > proceed()>checkNetwork Current Time: 1484737686520
+I/AppOptimizerTest:  At:Splash:  > proceed() < checkNetwork  Current Time: 1484737686600
+I/AppOptimizerTest:  At:Splash:  > proceed() > ExtraMethodCheck:login()  Current Time: 1484737686600
+I/AppOptimizerTest:  At:Splash:  > proceed() < ExtraMethodCheck:login()  Current Time: 1484737686601
+I/AppOptimizerTest:  At:Splash:  > proceed() > fetchLocations()  Current Time: 1484737686601
+I/AppOptimizerTest:  At:Splash:  > proceed() > getFbDetails()  Current Time: 1484737686641
+I/AppOptimizerTest:  At:Splash:  > proceed() < getFbDetails()  Current Time: 1484737686644
+
+I/AppOptimizerTest:  At:Register:  > registerDeviceForChat()  Current Time: 1484737688960
+I/AppOptimizerTest:  At:Register: registerDeviceForChat() >  Current Time: 1484737688965
+I/AppOptimizerTest:  At:Register:  > getDetailsFromFb() > uploadOnServer()  Current Time: 1484737688965
+I/AppOptimizerTest:  At:Register: uploadOnServer() >  Current Time: 1484737690823

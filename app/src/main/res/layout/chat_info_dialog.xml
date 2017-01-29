@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:padding="16dp"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="italic"
+            android:id="@+id/chatInfoDialogContent"
+            android:text="Hello ankit How are you?"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/chatInfoDialogDeliveryTime"
+        android:padding="8dp"
+        android:background="@color/colorPrimary"
+        android:textColor="#ffffff"
+        android:text="Delivered : "
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/chatInfoDialogSeenTime"
+        android:padding="8dp"
+        android:background="@color/colorPrimary"
+        android:text="Seen : "
+        android:textColor="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+</LinearLayout>

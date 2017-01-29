@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/muteNotification"
+        android:orderInCategory="105"
+        android:title="Mute Notification"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/reportUser"
+        android:orderInCategory="199"
+        android:title="Report"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/deleteChat"
+        android:orderInCategory="104"
+        android:title="Clear Chat"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/blockUser"
+        android:orderInCategory="149"
+        android:title="Block"
+        app:showAsAction="never"/>
+
+</menu>

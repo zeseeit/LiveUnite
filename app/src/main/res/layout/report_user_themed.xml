@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:paddingTop="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="380dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/report_bg">
+
+
+        <TextView
+            android:id="@+id/header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="8dp"
+            android:text="Report User"
+            android:textSize="26dp" />
+
+        <TextView
+            android:id="@+id/submsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:paddingTop="8dp"
+            android:text="Is this person bothering you?Tell us what they did."
+            android:textSize="14dp" />
+
+        <FrameLayout
+            android:background="#f9f9f9"
+            android:id="@+id/repo_inappropriate"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_below="@+id/submsg"
+            android:layout_marginTop="8dp"
+            android:padding="4dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/speech_bubble" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="48dp"
+                android:text="Inappropriate Message"
+                android:textSize="14dp" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/repo_inappropriate_photo"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_below="@+id/repo_inappropriate"
+            android:padding="4dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/photo_camera" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="48dp"
+                android:text="Inappropriate Photo"
+                android:textSize="14dp" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/bad_offline_behaviour"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#f9f9f9"
+            android:layout_below="@+id/repo_inappropriate_photo"
+            android:padding="4dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/cloud_computing" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="48dp"
+                android:text="Bad Offline Behavior"
+                android:textSize="14dp"
+                android:id="@+id/textView" />
+
+        </FrameLayout>
+
+
+        <FrameLayout
+            android:id="@+id/spam"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_below="@+id/bad_offline_behaviour"
+            android:padding="4dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/spam" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="48dp"
+                android:text="Feels Like Spam"
+                android:textSize="14dp" />
+
+        </FrameLayout>
+
+
+        <FrameLayout
+            android:id="@+id/other"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#f9f9f9"
+            android:layout_below="@+id/spam"
+            android:padding="4dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/user" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="48dp"
+                android:text="Others"
+                android:textSize="14dp" />
+
+        </FrameLayout>
+
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:padding="20dp"
+        android:id="@+id/topIcon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/top_icon_bg">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/forbidden" />
+
+    </FrameLayout>
+
+
+</RelativeLayout>

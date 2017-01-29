@@ -1,0 +1,148 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".opencamera.CameraActivity">
+
+    <FrameLayout
+        android:id="@+id/preview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        />
+
+    <SeekBar
+        android:id="@+id/zoom_seekbar"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="0dp"
+        android:contentDescription="@string/zoom"
+        android:visibility="invisible"
+        />
+
+    <SeekBar
+        android:id="@+id/focus_seekbar"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="0dp"
+        android:contentDescription="@string/focus_distance"
+        android:visibility="invisible"
+        />
+
+    <Button
+        android:id="@+id/gui_anchor"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="1dp"
+        android:scaleType="fitCenter"
+        />
+
+    <LinearLayout
+        android:id="@+id/camera_control"
+        android:layout_width="120dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+
+        <ImageView
+            android:id="@+id/moments"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:contentDescription="@string/switch_to_video"
+            android:padding="10dp"
+            android:onClick="clickedMoments"
+
+            android:scaleType="fitCenter"
+            android:src="@drawable/moments_icon"
+            android:layout_weight="1"
+            android:layout_gravity="end"/>
+
+        <ImageView
+            android:id="@+id/switch_flash"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:onClick="clickedUpdateFlash"
+            android:scaleType="fitCenter"
+            android:src="@drawable/flash_auto"
+            android:layout_weight="1"
+            android:layout_gravity="end"/>
+
+
+        <ImageView
+            android:id="@+id/take_photo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@null"
+            android:contentDescription="@string/take_photo"
+            android:scaleType="fitCenter"
+            android:src="@drawable/click"
+            android:layout_weight="1"
+            android:layout_gravity="end"/>
+
+
+
+        <ImageView
+            android:id="@+id/switch_camera"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:contentDescription="@string/switch_to_front_camera"
+            android:onClick="clickedSwitchCamera"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/selfie_small"
+            android:layout_weight="1"
+            android:layout_gravity="end"/>
+
+        <ImageView
+            android:id="@+id/switch_gallery"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:contentDescription="@string/switch_to_video"
+            android:padding="10dp"
+            android:onClick="clickedSwitchGallery"
+
+            android:background="@null"
+            android:scaleType="fitCenter"
+            android:src="@drawable/art_gallery"
+            android:layout_weight="1"
+            android:layout_gravity="end"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/share_controls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/share_tick"
+            android:padding="10dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_tick"
+            android:onClick="clickedShare"/>
+        <ImageView
+            android:id="@+id/delete_cross"
+            android:padding="10dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_cross"
+            android:onClick="clickedDelete"/>
+    </LinearLayout>
+
+</RelativeLayout>

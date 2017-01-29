@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#006666</color>
+    <color name="colorPrimaryDark">#004444</color>
+    <color name="colorAccent">#77b530</color>
+    <color name="background">@color/LightGrey</color>
+
+    <color name="placeholder_background">#222322</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="red">#FF0000</color>
+    <color name="black">#000000</color>
+
+    <color name="light">#bfbfbf</color>
+
+
+    <color name="White">#FFFFFF</color>
+    <color name="Violet">#EE82EE</color>
+    <color name="LightGrey">#D3D3D3</color>
+    <color name="DarkCyan">#008B8B</color>
+    <color name="Blue">#0000FF</color>
+    <color name="Black">#000000</color>
+    <color name="COLOR_NAVIGATION_NORMAL">@color/colorPrimary</color>
+    <color name="COLOR_NAVIGATION_SELECTED">@color/colorPrimaryDark</color>
+    <color name="button_text_color">@color/Blue</color>
+    <color name="vav_header_bg">#c8ffffff</color>
+    <color name="line">#cacaca</color>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="bg_full_screen_edia">#64d4b921</color>
+
+</resources>

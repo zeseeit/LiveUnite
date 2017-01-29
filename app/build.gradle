@@ -1,0 +1,63 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.0"
+    defaultConfig {
+        multiDexEnabled true
+        applicationId 'com.liveunite'
+        minSdkVersion 17
+        targetSdkVersion 24
+        versionCode 6
+        versionName "1.0.0.6"
+
+    }
+    dexOptions {
+        javaMaxHeapSize "2g" //specify the heap size for the dex process
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE-FIREBASE.txt'
+        exclude 'META-INF/NOTICE'
+    }
+    productFlavors {
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    // retrofit, gson
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:design:24.2.1'
+    compile 'com.android.support:recyclerview-v7:24.2.1'
+    //compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+    compile 'jp.wasabeef:picasso-transformations:2.1.0'
+    compile 'com.appyvet:materialrangebar:1.3'
+    compile 'com.google.firebase:firebase-crash:9.6.1'
+    compile 'com.google.firebase:firebase-auth:9.6.1'
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.okhttp3:okhttp:3.1.2'
+    compile 'com.rengwuxian.materialedittext:library:2.1.4'
+    compile 'com.google.android.gms:play-services:9.6.1'
+    compile 'com.google.android.gms:play-services-gcm:9.6.1'
+    //for chat
+    compile 'com.mcxiaoke.volley:library:1.0.19'
+}
+apply plugin: 'com.google.gms.google-services'

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/iDiscovery"
+            android:title="Discovery Setting\nVishwesh"
+            android:icon="@drawable/ic_find_in_page_black_24dp"
+            />
+        <item
+            android:id="@+id/iAppSetting"
+            android:title="App Setting"
+            android:icon="@drawable/ic_settings_black_24dp"
+            />
+        <item
+            android:id="@+id/iHelpSupport"
+            android:title="Help \u0026 support"
+            android:icon="@drawable/ic_help_black_24dp"
+            />
+        <item
+            android:id="@+id/iRateUs"
+            android:title="Rate us"
+            android:icon="@drawable/ic_stars_black_24dp"
+            />
+
+    </group>
+</menu>
