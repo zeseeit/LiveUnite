@@ -816,8 +816,6 @@ public class CameraActivity extends Activity implements Handler.Callback {
             Log.d(TAG, "clickedShare");
         //Upload the last image
         //TODO upload img code
-
-
         //start the preview to enter the caption
         applicationInterface.shareLastImage();
 

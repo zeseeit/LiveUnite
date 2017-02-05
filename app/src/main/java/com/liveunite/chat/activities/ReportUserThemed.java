@@ -1,5 +1,6 @@
 package com.liveunite.chat.activities;
 
+import android.app.ProgressDialog;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ public class ReportUserThemed extends AppCompatActivity {
     FrameLayout spam;
     FrameLayout other;
     String cmpId;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,16 +113,19 @@ public class ReportUserThemed extends AppCompatActivity {
 
     private void reportUser(final String userId,final String cmpId, final String reportType) {
 
+
         StringRequest syncGCMIdsReq = new StringRequest(Request.Method.POST, Constants.SERVER.URL_USER_REPORT,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+
                         Log.d("ChatRoom:Report user",response);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
                         Log.d("Reporting user", "error " + error);
                     }
                 }) {
@@ -142,6 +147,5 @@ public class ReportUserThemed extends AppCompatActivity {
         VolleyUtils.getInstance().addToRequestQueue(syncGCMIdsReq, "syncLastSeen", this);
 
     }
-
 
 }

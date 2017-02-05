@@ -55,7 +55,7 @@ public class Splash extends AppCompatActivity {
 
         Singleton.getInstance().setScrrenWidth(getScreenWidth());
         myVersion = Build.VERSION.SDK_INT;
-        Log.d("Splash", " onCreate init..");
+        //Log.d("Splash", " onCreate init..");
         new Optimizer().logTime("Splash: onCreate() > fbInit");
         init();
         new Optimizer().logTime("Splash: onCreate() > fbInit done ");
@@ -99,7 +99,7 @@ public class Splash extends AppCompatActivity {
 
         if(LiveUnite.getInstance().getPreferenceManager().getFbId().length()>0) {
 
-            Log.d("AppOptimization"," Starting Task on Worker Thread...................");
+            //Log.d("AppOptimization"," Starting Task on Worker Thread...................");
 
             new Thread() {
                 @Override
@@ -114,7 +114,7 @@ public class Splash extends AppCompatActivity {
 
         }else{
 
-            Log.d("AppOptimization"," Starting Task on Main Thread");
+            //Log.d("AppOptimization"," Starting Task on Main Thread");
             startTask();
         }
 
@@ -123,7 +123,7 @@ public class Splash extends AppCompatActivity {
     private void startTask(){
 
         if (myVersion <= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            Log.d("Splash", " onResume() procceding..");
+            //Log.d("Splash", " onResume() procceding..");
             procced();
         } else {
             if (isLocationPermissionAllowed()) {
@@ -186,13 +186,13 @@ public class Splash extends AppCompatActivity {
                 new Optimizer().logTime("Splash:  > proceed() < ExtraMethodCheck:login() ");
                 // check if GPS enabled
                 new Optimizer().logTime("Splash:  > proceed() > fetchLocations() ");
-                Log.d("Splash", "LoggedIn");
+                //Log.d("Splash", "LoggedIn");
 
                 final UpdateLocations locations = new UpdateLocations(this);
                 locations.initiateLocationFetch();
 
                 if (locations.getLocationStatus()) {
-                    Log.d("Splash", "Getting details from fb");
+                    //Log.d("Splash", "Getting details from fb");
 
                     new Optimizer().logTime("Splash:  > proceed() > getFbDetails() ");
                     new Register().getDetailsFromFB(context, false);

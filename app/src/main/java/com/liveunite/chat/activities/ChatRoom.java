@@ -101,7 +101,7 @@ public class ChatRoom extends AppCompatActivity implements View.OnFocusChangeLis
         companionGcmId = DatabaseHelper.getInstance(this).getGcmID(companionId);
         selfId = LiveUnite.getInstance().getPreferenceManager().getFbId();
         chatRoomId = createChatRoomId(selfId, companionId);
-        Log.d("ChatRoom", " Friend Id: " + companionId + " dpUrl :" + companionDpUrl + " selfId :" + selfId);
+        //Log.d("ChatRoom", " Friend Id: " + companionId + " dpUrl :" + companionDpUrl + " selfId :" + selfId);
         prepareChatRoom();
 
     }
@@ -237,11 +237,11 @@ public class ChatRoom extends AppCompatActivity implements View.OnFocusChangeLis
 
         if(blocked){
             //unblock it
-            Log.d("ChatRoom","UnBlocking user "+companionTitle);
+            //Log.d("ChatRoom","UnBlocking user "+companionTitle);
             DatabaseHelper.getInstance(this).setCommChannel(companionId,Constants.USER.VALUE_COMMUNICATION_CHANNEL_OPEN);
         }else{
             // block it
-            Log.d("ChatRoom","Blocking user "+companionTitle);
+            //Log.d("ChatRoom","Blocking user "+companionTitle);
             DatabaseHelper.getInstance(this).setCommChannel(companionId,Constants.USER.VALUE_COMMUNICATION_CHANNEL_BLOCKED);
         }
 
@@ -279,7 +279,9 @@ public class ChatRoom extends AppCompatActivity implements View.OnFocusChangeLis
         chatRoomThreadAdapter.setLongPressedListener(listener);
         recyclerView = (RecyclerView) findViewById(R.id.chat_thread_recycler_view);
         recyclerView.setAdapter(chatRoomThreadAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
         toolbar = (Toolbar) findViewById(R.id.chatRoomToolbar);
         View toolbarInnerView = LayoutInflater.from(this).inflate(R.layout.chat_room_header_layout, null, false);
@@ -352,7 +354,7 @@ public class ChatRoom extends AppCompatActivity implements View.OnFocusChangeLis
                         "FALSE"
                 );
 
-                Log.d("PushReceiverChatroom","ChatRoomId=>"+chatRoomId+" SenderId =>"+selfId);
+                //Log.d("PushReceiverChatroom","ChatRoomId=>"+chatRoomId+" SenderId =>"+selfId);
 
                 submitMessageSendAction(__m);
                 messageBox.setText("");
@@ -427,7 +429,7 @@ public class ChatRoom extends AppCompatActivity implements View.OnFocusChangeLis
         chatRoomThreadAdapter.addNewMessage(message);
 
         if (recyclerView.getAdapter().getItemCount() > 0) {
-            recyclerView.smoothScrollToPosition(recyclerView.getAdapter().getItemCount() - 1);
+            recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount() - 1);
         }
 
     }
@@ -438,7 +440,7 @@ public class ChatRoom extends AppCompatActivity implements View.OnFocusChangeLis
         @Override
         public void run() {
             // sync status and update ui
-            Log.d("ChatRoomLastSeenSync", "Running Last seen Task..................");
+            //Log.d("ChatRoomLastSeenSync", "Running Last seen Task..................");
             sync();
         }
     };
@@ -452,14 +454,14 @@ public class ChatRoom extends AppCompatActivity implements View.OnFocusChangeLis
                     @Override
                     public void onResponse(String response) {
 
-                        Log.d("ChatRoomTypingInfo", "typing Info response " + response);
+                        //Log.d("ChatRoomTypingInfo", "typing Info response " + response);
 
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("ChatRoomTypingInfo", "send typing info " + error);
+                        //Log.d("ChatRoomTypingInfo", "send typing info " + error);
                     }
                 }){
 
@@ -473,7 +475,7 @@ public class ChatRoom extends AppCompatActivity implements View.OnFocusChangeLis
 
             @Override
             public byte[] getBody() throws AuthFailureError {
-                Log.d("ChatRoomTypingInfo"," body => "+jsonBody);
+                //Log.d("ChatRoomTypingInfo"," body => "+jsonBody);
                 return jsonBody.getBytes();
             }
 
@@ -499,7 +501,7 @@ public class ChatRoom extends AppCompatActivity implements View.OnFocusChangeLis
 
     private void cancelLastStatusSyncTask() {
 
-        Log.d("ChatRoomLastSeenSync", "removing last seen callbacks");
+        //Log.d("ChatRoomLastSeenSync", "removing last seen callbacks");
         VolleyUtils.getInstance().cancelPendingRequests("syncLastSeen");
         if (mLastSeenTimer != null)
             mLastSeenTimer.cancel();
@@ -513,14 +515,14 @@ public class ChatRoom extends AppCompatActivity implements View.OnFocusChangeLis
                     @Override
                     public void onResponse(String response) {
 
-                        Log.d("ChatRoomLastSeenSync", " syncLast Seen response " + response);
+                        //Log.d("ChatRoomLastSeenSync", " syncLast Seen response " + response);
                         handleReponse(response);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("ChatRoomLastSeenSync", "syncChat " + error);
+                        //Log.d("ChatRoomLastSeenSync", "syncChat " + error);
                     }
                 }) {
             @Override
@@ -656,11 +658,11 @@ public class ChatRoom extends AppCompatActivity implements View.OnFocusChangeLis
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            Log.d("ChatRoomTypingInfo"," typing sender.."+intent.getExtras().getString("senderId"));
+            //Log.d("ChatRoomTypingInfo"," typing sender.."+intent.getExtras().getString("senderId"));
 
                 if (intent.getExtras().getString("senderId").equals(companionId)) {
 
-                    Log.d("ChatRoomTypingInfo"," this is typing info for the current chat room");
+                    //Log.d("ChatRoomTypingInfo"," this is typing info for the current chat room");
 
                     isTyping = true;
                     lastSeenStatus.setTextColor(Color.RED);

@@ -90,14 +90,14 @@ public class ChatCentre {
     }
 
     public void submitAction(int actionType, Handler handler) {
-        Log.d(TAG, "Action Invoke Type :" + actionType);
+        ////Log.d(TAG, "Action Invoke Type :" + actionType);
         this.mHandler = handler;
         initTask(actionType);
 
     }
 
     public void submitAction(int actionType, Handler handler, String chatRoomId) {
-        Log.d(TAG, "Action Invoke Type :" + actionType);
+        ////Log.d(TAG, "Action Invoke Type :" + actionType);
         this.mHandler = handler;
         this.chatRoomId = chatRoomId;
         initTask(actionType);
@@ -105,7 +105,7 @@ public class ChatCentre {
 
     // override for no-callback callers
     public void submitAction(int actionType, LiveUniteMessage msg) {
-        Log.d(TAG, "Action Invoke Type :" + actionType);
+        ////Log.d(TAG, "Action Invoke Type :" + actionType);
         this.message = msg;
         initTask(actionType);
     }
@@ -113,14 +113,14 @@ public class ChatCentre {
 
     // override for no-callback callers
     public void submitAction(int actionType, ChatRoomModel chatRoomModel) {
-        Log.d(TAG, "Action Invoke Type :" + actionType);
+        ////Log.d(TAG, "Action Invoke Type :" + actionType);
         this.chatRoomModel = chatRoomModel;
         initTask(actionType);
     }
 
     //override for no-callback callers
     public void submitAction(int actionType, LiveUniteMessage msg, int relocationType) {
-        Log.d(TAG, "Action Invoke Type :" + actionType);
+        ////Log.d(TAG, "Action Invoke Type :" + actionType);
         this.message = msg;
         this.relocationType = relocationType;
         initTask(actionType);
@@ -128,7 +128,7 @@ public class ChatCentre {
     }
 
     public void submitAction(int actionType, Handler handler, LiveUniteMessage msg , boolean isHelpRoom) {
-        Log.d(TAG, "Action Invoke Type :" + actionType);
+        ////Log.d(TAG, "Action Invoke Type :" + actionType);
         this.mHandler = handler;
         this.message = msg;
         this.isHelpRoomQuery = isHelpRoom;
@@ -137,7 +137,7 @@ public class ChatCentre {
 
     public void submitAction(int actionType, Handler handler, LiveUniteMessage msg, int relocationType) {
 
-        Log.d(TAG, "Action Invoke Type :" + actionType);
+        ////Log.d(TAG, "Action Invoke Type :" + actionType);
         this.mHandler = handler;
         this.message = msg;
         this.relocationType = relocationType;
@@ -189,14 +189,14 @@ public class ChatCentre {
             }
         }.start();
 
-        Log.d(TAG, "started Thread For Action");
+        ////Log.d(TAG, "started Thread For Action");
 
     }
 
     private void invalidateChatRooms() {
         //WID: update the chat room
         mDbHelper.updateChatRoom(chatRoomModel);
-        Log.d(TAG, "update the chat room");
+        ////Log.d(TAG, "update the chat room");
 
     }
 
@@ -219,8 +219,8 @@ public class ChatCentre {
             mHandler.sendMessage(otmObj);
         }
 
-        Log.d(TAG, "Sent Last Cached Data");
-        Log.d(TAG, "Registered for onward event");
+        //Log.d(TAG, "Sent Last Cached Data");
+        //Log.d(TAG, "Registered for onward event");
 
 
         registerEventListenerForDatabaseAction(new DataBaseEventListener() {
@@ -231,7 +231,7 @@ public class ChatCentre {
 //                msgObj.arg1 = Constants.CHAT.HANDLER_ARGS_FLAG_ADDED_NEW;
 //                msgObj.obj = message;
 //                mHandler.sendMessage(msgObj);
-//                Log.d(TAG, "onMessageAdded()");
+//                //Log.d(TAG, "onMessageAdded()");
             }
 
             @Override
@@ -241,7 +241,7 @@ public class ChatCentre {
 //                otmObj.arg1 = Constants.CHAT.HANDLER_ARGS_FLAG_DELETE;
 //                otmObj.obj = sender_id;
 //                mHandler.sendMessage(otmObj);
-//                Log.d(TAG, "onMessageDelete()");
+//                //Log.d(TAG, "onMessageDelete()");
 
             }
 
@@ -252,7 +252,7 @@ public class ChatCentre {
 //                otmObj.arg1 = Constants.CHAT.HANDLER_ARGS_FLAG_RELOCATIONS;
 //                otmObj.obj = message;
 //                mHandler.sendMessage(otmObj);
-//                Log.d(TAG, "onMessageRelocation()");
+//                //Log.d(TAG, "onMessageRelocation()");
             }
 
             @Override
@@ -262,7 +262,7 @@ public class ChatCentre {
                 msgObj.arg1 = Constants.CHAT_ROOM.FLAG_ADDED_NEW;
                 msgObj.obj = model;
                 mHandler.sendMessage(msgObj);
-                Log.d(TAG, "onChatRoomAdded()");
+                //Log.d(TAG, "onChatRoomAdded()");
 
             }
 
@@ -273,7 +273,7 @@ public class ChatCentre {
                 otmObj.arg1 = Constants.CHAT_ROOM.FLAG_DELETE;
                 otmObj.obj = roomId;
                 mHandler.sendMessage(otmObj);
-                Log.d(TAG, "onMessageDelete()");
+                //Log.d(TAG, "onMessageDelete()");
             }
 
             @Override
@@ -283,7 +283,7 @@ public class ChatCentre {
                 otmObj.arg1 = Constants.CHAT_ROOM.FLAG_INVALIDATION;
                 otmObj.obj = model;
                 mHandler.sendMessage(otmObj);
-                Log.d(TAG, "onChatRoomInvalidation()");
+                //Log.d(TAG, "onChatRoomInvalidation()");
             }
         });
 
@@ -292,19 +292,19 @@ public class ChatCentre {
     private void deleteChatRoom() {
 
         mDbHelper.deleteChatRoom(chatRoomModel.chatRoomId);
-        Log.d(TAG, "deleted chat room id");
+        //Log.d(TAG, "deleted chat room id");
     }
 
     private void addChatRoom() {
         //WID: add chat room to database
         mDbHelper.writeChatRoom(chatRoomModel);
-        Log.d(TAG, "Added chat room");
+        //Log.d(TAG, "Added chat room");
 
     }
 
     private void handleNewArrival() {
         //WID: takes the message and write to database
-        Log.d(TAG, "writing arrival to database");
+        //Log.d(TAG, "writing arrival to database");
         DatabaseHelper.getInstance(context).writeMessage(message);
         createOrUpdateChatRoom();
 
@@ -313,14 +313,14 @@ public class ChatCentre {
     private void syncGcmIds() {
         //WID: download all the gcm id registered and save to database
 
-        Log.d(TAG, "sync Gcm Ids");
+        //Log.d(TAG, "sync Gcm Ids");
 
         StringRequest syncGCMIdsReq = new StringRequest(Request.Method.POST, Constants.SERVER.URL_SYNC_GCM_IDS,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
-                        Log.d(TAG, " syncGCM response " + response);
+                        //Log.d(TAG, " syncGCM response " + response);
 
                         parseGcmIds(response);
                     }
@@ -328,7 +328,7 @@ public class ChatCentre {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d(TAG, "syncChat " + error);
+                        //Log.d(TAG, "syncChat " + error);
                     }
                 });
 
@@ -384,7 +384,7 @@ public class ChatCentre {
         if(!isHelpRoomQuery)
             createOrUpdateChatRoom();
 
-        Log.d(TAG, "Action Chat Submit()");
+        //Log.d(TAG, "Action Chat Submit()");
 
     }
 
@@ -398,20 +398,20 @@ public class ChatCentre {
         if (oldChatRoom != null) {
             // means there exists a chat room for given message
             //Update: chatRoomOrder, last Seen Message , unread count(for incomming msg)
-            Log.d("ChatCentre", "updating old chat room");
+            //Log.d("ChatCentre", "updating old chat room");
             int previousOrder = oldChatRoom.chatRoomOrder;
             oldChatRoom.chatRoomOrder = 0;
             oldChatRoom.lastMessage = message.message;
-            Log.d("ChatCentre", "updating old chat room[last msg]:" + oldChatRoom.lastMessage);
+            //Log.d("ChatCentre", "updating old chat room[last msg]:" + oldChatRoom.lastMessage);
             //increment unread count for incomming msg
             if (message.chatType == Constants.CHAT.MESSAGE_TYPE_INCOMMING) {
 
 
                 oldChatRoom.lastMessageTime = new LiveUniteTimeFormatter(message.receivedTime).getFormattedTimeStamp(LiveUniteTimeFormatter.FORMAT_CHAT_WALL);
-                Log.d("ChatCentre", "updating old chat room[time]:" + oldChatRoom.lastMessageTime);
+                //Log.d("ChatCentre", "updating old chat room[time]:" + oldChatRoom.lastMessageTime);
                 // increment unread count
                 oldChatRoom.unreadCount = String.valueOf(Integer.parseInt(oldChatRoom.unreadCount) + 1);
-                Log.d("ChatCentre", "updating old chat room[unread count]:" + oldChatRoom.unreadCount);
+                //Log.d("ChatCentre", "updating old chat room[unread count]:" + oldChatRoom.unreadCount);
             }
 
             oldChatRoom.lastMessageTime = new LiveUniteTimeFormatter(message.sentTime).getFormattedTimeStamp(LiveUniteTimeFormatter.FORMAT_CHAT_WALL);
@@ -422,7 +422,7 @@ public class ChatCentre {
 
                 if (chatRoom.chatRoomOrder < previousOrder) {
                     chatRoom.chatRoomOrder += 1;
-                    Log.d("ChatCentre", " updating chat room " + chatRoom.chatRoomTitle);
+                    //Log.d("ChatCentre", " updating chat room " + chatRoom.chatRoomTitle);
                     dbHelper.updateChatRoom(chatRoom);
                 }
 
@@ -479,7 +479,7 @@ public class ChatCentre {
                 dbHelper.updateChatRoom(chatRoom);
 
             }
-            Log.d("ChatCentre", "Creating new chat room " + newChatRoom.chatRoomTitle);
+            //Log.d("ChatCentre", "Creating new chat room " + newChatRoom.chatRoomTitle);
             // write target chatRoom
             dbHelper.writeChatRoom(newChatRoom);
 
@@ -488,7 +488,7 @@ public class ChatCentre {
 
     private String getDpUrl(LiveUniteMessage msg) {
         String fbId = (msg.chatType == Constants.CHAT.MESSAGE_TYPE_INCOMMING) ? msg.senderId : msg.receiverId;
-        Log.d(TAG, "Chat wall fbId:" + fbId);
+        //Log.d(TAG, "Chat wall fbId:" + fbId);
         return "https://graph.facebook.com/" + fbId + "/picture?width=144&height=144";
     }
 
@@ -496,7 +496,7 @@ public class ChatCentre {
 
         Intent dispatchIntent = new Intent(context, MessageDispatchService.class);
         context.startService(dispatchIntent);
-        Log.d(TAG, " started Dispatch Service");
+        //Log.d(TAG, " started Dispatch Service");
 
     }
 
@@ -506,15 +506,15 @@ public class ChatCentre {
         switch (relocationType) {
             case Constants.CHAT.FLAG_RELOCATION_TYPE_SENT:
                 mDbHelper.updateMessageSentStatus(message.chatId);
-                Log.d(TAG, "Chat Relocation Type [SENT]");
+                //Log.d(TAG, "Chat Relocation Type [SENT]");
                 break;
             case Constants.CHAT.FLAG_RELOCATION_TYPE_DELIVERED:
                 mDbHelper.updateMessageDeliveryStatus(message);
-                Log.d(TAG, "Chat Relocation Type [DELIVERED]");
+                //Log.d(TAG, "Chat Relocation Type [DELIVERED]");
                 break;
             case Constants.CHAT.FLAG_RELOCATION_TYPE_SEEN:
                 mDbHelper.updateMessageSeenStatus(message);
-                Log.d(TAG, "Chat Relocation Type [SEEN]");
+                //Log.d(TAG, "Chat Relocation Type [SEEN]");
                 break;
             default:
                 break;
@@ -524,7 +524,7 @@ public class ChatCentre {
 
     private void delete() {
         //WID: delete all messages from db and send request to delete at app server
-        Log.d(TAG, "Delete Action()");
+        //Log.d(TAG, "Delete Action()");
         //todo:implement delete method
     }
 
@@ -553,8 +553,8 @@ public class ChatCentre {
             mHandler.sendMessage(otmObj);
         }
 
-        Log.d(TAG, "Sent Last Cached Data");
-        Log.d(TAG, "Registered for onward event");
+        //Log.d(TAG, "Sent Last Cached Data");
+        //Log.d(TAG, "Registered for onward event");
 
         registerEventListenerForDatabaseAction(new DataBaseEventListener() {
             @Override
@@ -570,7 +570,7 @@ public class ChatCentre {
                     msgObj.arg1 = Constants.CHAT.HANDLER_ARGS_FLAG_ADDED_NEW;
                     msgObj.obj = message;
                     mHandler.sendMessage(msgObj);
-                    Log.d(TAG, "onMessageAdded()");
+                    //Log.d(TAG, "onMessageAdded()");
                 }
             }
 
@@ -581,7 +581,7 @@ public class ChatCentre {
                 otmObj.arg1 = Constants.CHAT.HANDLER_ARGS_FLAG_DELETE;
                 otmObj.obj = sender_id;
                 mHandler.sendMessage(otmObj);
-                Log.d(TAG, "onMessageDelete()");
+                //Log.d(TAG, "onMessageDelete()");
 
             }
 
@@ -595,7 +595,7 @@ public class ChatCentre {
                     otmObj.arg1 = Constants.CHAT.HANDLER_ARGS_FLAG_RELOCATIONS;
                     otmObj.obj = message;
                     mHandler.sendMessage(otmObj);
-                    Log.d(TAG, "onMessageRelocation()");
+                    //Log.d(TAG, "onMessageRelocation()");
                 }
             }
 
@@ -606,7 +606,7 @@ public class ChatCentre {
 //                msgObj.arg1 = Constants.CHAT_ROOM.FLAG_ADDED_NEW;
 //                msgObj.obj = model;
 //                mHandler.sendMessage(msgObj);
-//                Log.d(TAG, "onChatRoomAdded()");
+//                //Log.d(TAG, "onChatRoomAdded()");
             }
 
             @Override
@@ -616,7 +616,7 @@ public class ChatCentre {
 //                otmObj.arg1 = Constants.CHAT_ROOM.FLAG_DELETE;
 //                otmObj.obj = roomId;
 //                mHandler.sendMessage(otmObj);
-//                Log.d(TAG, "onMessageDelete()");
+//                //Log.d(TAG, "onMessageDelete()");
             }
 
             @Override
@@ -626,7 +626,7 @@ public class ChatCentre {
 //                otmObj.arg1 = Constants.CHAT_ROOM.FLAG_INVALIDATION;
 //                otmObj.obj = model;
 //                mHandler.sendMessage(otmObj);
-//                Log.d(TAG, "onChatRoomInvalidation()");
+//                //Log.d(TAG, "onChatRoomInvalidation()");
             }
         });
 
@@ -651,7 +651,7 @@ public class ChatCentre {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("ChatThreadAdapter", " seen reported:" + response);
+                        //Log.d("ChatThreadAdapter", " seen reported:" + response);
                         try {
                             //response from gcm server
                             //{
@@ -666,7 +666,7 @@ public class ChatCentre {
                             JSONObject object = new JSONObject(response);
                             if (object.getInt("success") == 1) {
                                 // submit a no-callback Action Flag to Chat Center For MessageRelocation
-                                Log.d("ChatThreadAdapter", " Successfully sent seen report back to sender");
+                                //Log.d("ChatThreadAdapter", " Successfully sent seen report back to sender");
                                 ChatCentre.getInstance(context).submitAction(ChatCentre.FLAG_RELOCATION_INVALIDATION, data, Constants.CHAT.FLAG_RELOCATION_TYPE_SEEN);
                             }
                         } catch (JSONException e) {
@@ -679,13 +679,13 @@ public class ChatCentre {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("ChatThreadAdapter", "volley Error " + error);
+                        //Log.d("ChatThreadAdapter", "volley Error " + error);
                     }
                 }) {
 
             @Override
             public byte[] getBody() throws AuthFailureError {
-                Log.d("ChatThreadAdapter", " seen Report getBody() => " + jsonBody);
+                //Log.d("ChatThreadAdapter", " seen Report getBody() => " + jsonBody);
                 return jsonBody.getBytes();
             }
 
@@ -729,7 +729,7 @@ public class ChatCentre {
         otmObj.arg1 = Constants.CHAT_ROOM.FLAG_DELETE;
         otmObj.obj = chatRoomId;
         mHandler.sendMessage(otmObj);
-        Log.d(TAG, "onMessageDelete()");
+        //Log.d(TAG, "onMessageDelete()");
 
 
     }

@@ -8,8 +8,6 @@
     tools:context="com.liveunite.activities.DiscoverySetting">
 
     <include layout="@layout/normal_toolbar" />
-
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -87,4 +85,12 @@
 
         </LinearLayout>
     </RelativeLayout>
+
+    <TextView
+        android:padding="14dp"
+        android:textColor="#aaaaaa"
+        android:text="As of now location is set as default and once we have enough people you can customise as per your interest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

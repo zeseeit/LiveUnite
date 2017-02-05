@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -27,6 +28,7 @@ import com.liveunite.LiveUniteMains.LiveUnite;
 import com.liveunite.activities.HomeActivity;
 import com.liveunite.activities.MapActivity;
 import com.liveunite.adapter.AdapterPosts;
+import com.liveunite.gps.GPSTracker;
 import com.liveunite.interfaces.LiveUniteApi;
 import com.liveunite.models.FeedsRequest;
 import com.liveunite.models.FeedsResponse;
@@ -61,8 +63,8 @@ public class MomentsFragment extends Fragment {
     private int lastVisibleItem, totalItemCount;
     AdapterPosts mAdapter;
     ArrayList<FeedsResponse> arrayList = new ArrayList<>();
-    int onGoingUploads=0;
-    int count=0;
+    int onGoingUploads = 0;
+    int count = 0;
 
 
     static MomentsFragment momentsFragment;
@@ -86,10 +88,6 @@ public class MomentsFragment extends Fragment {
     private boolean canRefresh = true;
     private boolean isUploading = false;
     ProgressBar progressBar;
-
-    TextView errorPanel;
-    TextView retryBtn;
-
 
     public MomentsFragment() {
         // Required empty public constructor
@@ -115,6 +113,20 @@ public class MomentsFragment extends Fragment {
         initView(view);
         tToolbar = HomeActivity.mToolbar;
 
+        final UpdateLocations locations = new UpdateLocations(context);
+        locations.initiateLocationFetch();
+
+        tToolbar.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(!locations.getLocationStatus()){
+                    setUpRequest();
+                    Toast.makeText(context, "Having Problem With Location !", Toast.LENGTH_LONG).show();
+                }
+            }
+        }, 4000);
+
+
         if (savedInstanceState != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 HomeActivity.mToolbar.setElevation(savedInstanceState.getFloat(STATE_TOOLBAR_ELEVATION));
@@ -130,7 +142,7 @@ public class MomentsFragment extends Fragment {
     }
 
     private void setUpRequest() {
-        this.feedsRequest = new ExtraMethods().getFeedRequest(LiveUnite.getInstance().getPreferenceManager().getFbId(),"1");
+        this.feedsRequest = new ExtraMethods().getFeedRequest(LiveUnite.getInstance().getPreferenceManager().getFbId(), "1");
     }
 
     private void setAdapter() {
@@ -144,16 +156,15 @@ public class MomentsFragment extends Fragment {
 
             @Override
             public void onRetry(FeedsResponse mFeedsResponse, int position) {
-                Intent intent = new Intent(context,UploadService.class);
-                intent.putExtra(Constant.UPLOAD_FILENAME,mFeedsResponse.getFile().getName());
-                intent.putExtra(Constant.UPLOAD_CAPTION,mFeedsResponse.getCaption().trim());
-                intent.putExtra(Constant.UPLOAD_AUTODELETE,false);
-                intent.putExtra(Constant.UPLOAD_TYPE,Constant.TYPE_PICTURE);
+                Intent intent = new Intent(context, UploadService.class);
+                intent.putExtra(Constant.UPLOAD_FILENAME, mFeedsResponse.getFile().getName());
+                intent.putExtra(Constant.UPLOAD_CAPTION, mFeedsResponse.getCaption().trim());
+                intent.putExtra(Constant.UPLOAD_AUTODELETE, false);
+                intent.putExtra(Constant.UPLOAD_TYPE, Constant.TYPE_PICTURE);
                 context.startService(intent);
-                if (arrayList.size()>position)
-                {
+                if (arrayList.size() > position) {
                     arrayList.remove(position);
-                    ((HomeActivity)context).runOnUiThread(new Runnable() {
+                    ((HomeActivity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             mAdapter.notifyDataChanged();
@@ -187,35 +198,19 @@ public class MomentsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         setUpRequest();
+
     }
 
     private void load(int index) {
         // arrayList = new ArrayList<>();
-        Log.e("Optimization"," feeds load request");
-        count=0;
+        Log.e("Optimization", " feeds load request");
+        count = 0;
         feedsRequest.setFromLimit(index);
         feedsRequest.setToLimit(index + Constant.LOAD_FEEDS_LIMITS);
 
-        UpdateLocations locations = new UpdateLocations(context);
-        locations.initiateLocationFetch();
-
-        if (!locations.getLocationStatus())
-        {
-            recyclerView.setVisibility(View.GONE);
-            progressBar.setVisibility(View.GONE);
-            errorPanel.setVisibility(View.VISIBLE);
-            errorPanel.setText("Unable To Get Your Location ! ");
-            retryBtn.setVisibility(View.VISIBLE);
-            return;
-        }
-
-        recyclerView.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.VISIBLE);
-        errorPanel.setVisibility(View.GONE);
-        retryBtn.setVisibility(View.GONE);
 
 
-        Log.d("LocationTest"," long "+Singleton.getInstance().getUserLocationModal().getLongitude()+" lat "+Singleton.getInstance().getUserLocationModal().getLatitude());
+        Log.d("LocationTest", " long " + Singleton.getInstance().getUserLocationModal().getLongitude() + " lat " + Singleton.getInstance().getUserLocationModal().getLatitude());
         feedsRequest.setLongitude(Singleton.getInstance().getUserLocationModal().getLongitude());
         feedsRequest.setLatitude(Singleton.getInstance().getUserLocationModal().getLatitude());
         final Call<ArrayList<FeedsResponse>> feedsResponseCall = liveUniteApi.getFeeds(feedsRequest);
@@ -225,17 +220,17 @@ public class MomentsFragment extends Fragment {
             public void onResponse(Call<ArrayList<FeedsResponse>> call, Response<ArrayList<FeedsResponse>> response) {
                 int statusCode = response.code();
 
-                if ( statusCode == 200 && response.isSuccessful() && response.body() != null) {
+                if (statusCode == 200 && response.isSuccessful() && response.body() != null) {
                     count++;
                     arrayList.clear();
-                    Log.e("Optimization", "Response "+response.body());
+                    Log.e("Optimization", "Response " + response.body());
                     arrayList.addAll(response.body());
                     if (arrayList.size() > 0) {
                         mAdapter.notifyDataChanged();
                         progressBar.setVisibility(View.GONE);
                     }
                 } else {
-                    Toast.makeText(context,"Please check your network connection",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Please check your network connection", Toast.LENGTH_SHORT).show();
                     Log.e("Optimization", " Response Error " + String.valueOf(response.code()));
                 }
                 if (swipeRefreshLayout.isRefreshing()) {
@@ -246,7 +241,7 @@ public class MomentsFragment extends Fragment {
             @Override
             public void onFailure(Call<ArrayList<FeedsResponse>> call, Throwable t) {
                 Log.e("Onfail MomentsFragm", " Response Error " + t.getMessage());
-                Toast.makeText(context,"Please check your network connection",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Please check your network connection", Toast.LENGTH_SHORT).show();
                 if (swipeRefreshLayout.isRefreshing()) {
                     swipeRefreshLayout.setRefreshing(false);
                 }
@@ -256,23 +251,15 @@ public class MomentsFragment extends Fragment {
 
     private void initView(View view) {
         inilizeRetrofit();
-
-        errorPanel = (TextView) view.findViewById(R.id.errorPanel);
-
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
+        final UpdateLocations locations = new UpdateLocations(context);
+        locations.initiateLocationFetch();
 
-        retryBtn = (TextView) view.findViewById(R.id.retryBtn);
-        retryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
-                recyclerView.setVisibility(View.VISIBLE);
-                errorPanel.setVisibility(View.GONE);
-                load(0);
-            }
-        });
-
+        load(0);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -285,10 +272,11 @@ public class MomentsFragment extends Fragment {
 
             }
         });
+
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setHasFixedSize(true);
-        progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
         if (new CheckInternetConnection(context).isConnectedToInternet()) {
             setAdapter();
@@ -367,27 +355,18 @@ public class MomentsFragment extends Fragment {
         UpdateLocations locations = new UpdateLocations(context);
         locations.initiateLocationFetch();
 
-        if (count%2 == 0 && !locations.getLocationStatus())
-        {
+        if (count % 2 == 0 && !locations.getLocationStatus()) {
             recyclerView.setVisibility(View.GONE);
             progressBar.setVisibility(View.GONE);
-            errorPanel.setVisibility(View.VISIBLE);
-            errorPanel.setText("Unable To Get Your Location ! ");
-            retryBtn.setVisibility(View.VISIBLE);
             return;
 
         }
-
-        recyclerView.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.VISIBLE);
-        errorPanel.setVisibility(View.GONE);
-        retryBtn.setVisibility(View.GONE);
 
         setUpRequest();
         arrayList.add(null);
         mAdapter.notifyItemInserted(arrayList.size() - 1);
 
-        feedsRequest.setFromLimit(Constant.LOAD_FEEDS_LIMITS*count);
+        feedsRequest.setFromLimit(Constant.LOAD_FEEDS_LIMITS * count);
         feedsRequest.setToLimit(Constant.LOAD_FEEDS_LIMITS);
         final Call<ArrayList<FeedsResponse>> feedsResponseCall = liveUniteApi.getFeeds(feedsRequest);
         feedsResponseCall.enqueue(new Callback<ArrayList<FeedsResponse>>() {
@@ -472,17 +451,14 @@ public class MomentsFragment extends Fragment {
             if (onGoingUploads == 0) {
                 canRefresh = true;
             }
-            if (onGoingUploads >= 0 && arrayList.size()>onGoingUploads)
-            {
+            if (onGoingUploads >= 0 && arrayList.size() > onGoingUploads) {
                 arrayList.get(onGoingUploads).setUploading(false);
                 arrayList.get(onGoingUploads).setUploaded(true);
             }
             Toast.makeText(context, "Successfully uploaded", Toast.LENGTH_LONG).show();
-        }else
-        {
+        } else {
             Toast.makeText(context, "Please check your internet connection and retry", Toast.LENGTH_LONG).show();
-            if (onGoingUploads >= 0 && arrayList.size()>onGoingUploads)
-            {
+            if (onGoingUploads >= 0 && arrayList.size() > onGoingUploads) {
                 arrayList.get(onGoingUploads).setUploading(false);
             }
         }
@@ -492,7 +468,7 @@ public class MomentsFragment extends Fragment {
                 mAdapter.notifyDataSetChanged();
             }
         });
-       // Toast.makeText(context, "Upload " + success, Toast.LENGTH_LONG).show();
+        // Toast.makeText(context, "Upload " + success, Toast.LENGTH_LONG).show();
     }
 
     public void uploadStarted(File file, String caption) {
@@ -510,8 +486,7 @@ public class MomentsFragment extends Fragment {
         ((HomeActivity) context).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mAdapter!=null)
-                {
+                if (mAdapter != null) {
                     mAdapter.notifyDataSetChanged();
                 }
             }

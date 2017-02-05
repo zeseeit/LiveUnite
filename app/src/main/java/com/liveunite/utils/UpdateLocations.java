@@ -37,7 +37,7 @@ public class UpdateLocations {
             // Toast.makeText(context, gps.getLatitude() + " " + gps.getLongitude(), Toast.LENGTH_LONG).show();
             if (gps.getLongitude() == 0.0 || gps.getLongitude() ==0.0)
             {
-                Log.d("LocationFetch","No location...");
+                //Log.d("LocationFetch","No location...");
                 //Toast.makeText(context,"Make sure your location is on",Toast.LENGTH_LONG).show();
                 locationError = true;
                 return;
@@ -60,7 +60,7 @@ public class UpdateLocations {
             new TextView(LiveUnite.getInstance().getApplicationContext()).post(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("LocationFetch","showing Dialog");
+                    //Log.d("LocationFetch","showing Dialog");
                     gps.showSettingsAlert();
                 }
             });

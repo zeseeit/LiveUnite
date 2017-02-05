@@ -19,7 +19,7 @@ public class LiveUniteInstanceIDListenerService extends InstanceIDListenerServic
      */
     @Override
     public void onTokenRefresh() {
-        Log.e(TAG, "onTokenRefresh");
+       // Log.e(TAG, "onTokenRefresh");
         // Fetch updated Instance ID token and notify our app's server of any changes (if applicable).
         Intent intent = new Intent(this, LiveUniteGCMIntentService.class);
         startService(intent);

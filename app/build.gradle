@@ -8,12 +8,12 @@ android {
         applicationId 'com.liveunite'
         minSdkVersion 17
         targetSdkVersion 24
-        versionCode 6
-        versionName "1.0.0.6"
+        versionCode 8
+        versionName "1.1"
 
     }
     dexOptions {
-        javaMaxHeapSize "2g" //specify the heap size for the dex process
+        javaMaxHeapSize "4g" //specify the heap size for the dex process
     }
 
     buildTypes {

@@ -113,13 +113,13 @@ public class LiveUniteGCMIntentService extends IntentService {
                 new com.android.volley.Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG,"volley error " +error);
+                        //Log.e(TAG,"volley error " +error);
                     }
                 }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> map = new HashMap<>();
-                Log.e(TAG," user - "+id+" token - "+token);
+                //Log.e(TAG," user - "+id+" token - "+token);
                 map.put("user_id", id);
                 map.put("gcm_id", token);
                 return map;

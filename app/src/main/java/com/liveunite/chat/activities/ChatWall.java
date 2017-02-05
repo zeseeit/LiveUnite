@@ -79,18 +79,20 @@ public class ChatWall extends AppCompatActivity{
         supportLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//
+//                String helpCentreId ="899612170173914" ;///(Integer.parseInt(Singleton.getInstance().getUserDetails().getFbId().substring(0,3))%2==0)?Constants.CHAT_ROOM.HELP_CENTRE_FB_ID_even:Constants.CHAT_ROOM.HELP_CENTRE_FB_ID_odd;
+//                Intent chatRoomIntent = new Intent(ChatWall.this, ChatRoom.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("fbId", helpCentreId);    //  fbId of Help Centre
+//                bundle.putString("title", "Team LiveUnite");
+//                String dpUrl = "http://liveunite.com/wp-content/uploads/2016/06/LogoMakr-2.png";
+//                bundle.putString("dpUrl", dpUrl);
+//                bundle.putBoolean("isHelpRoom",true);
+//                chatRoomIntent.putExtras(bundle);
+//                //Toast.makeText(ChatWall.this,"Under Construction",Toast.LENGTH_LONG).show();
+//                startActivity(chatRoomIntent);
 
-                String helpCentreId ="899612170173914" ;///(Integer.parseInt(Singleton.getInstance().getUserDetails().getFbId().substring(0,3))%2==0)?Constants.CHAT_ROOM.HELP_CENTRE_FB_ID_even:Constants.CHAT_ROOM.HELP_CENTRE_FB_ID_odd;
-                Intent chatRoomIntent = new Intent(ChatWall.this, ChatRoom.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("fbId", helpCentreId);    //  fbId of Help Centre
-                bundle.putString("title", "Team LiveUnite");
-                String dpUrl = "http://liveunite.com/wp-content/uploads/2016/06/LogoMakr-2.png";
-                bundle.putString("dpUrl", dpUrl);
-                bundle.putBoolean("isHelpRoom",true);
-                chatRoomIntent.putExtras(bundle);
-                //Toast.makeText(ChatWall.this,"Under Construction",Toast.LENGTH_LONG).show();
-                startActivity(chatRoomIntent);
+                Toast.makeText(ChatWall.this,"Preparing For Your Help",Toast.LENGTH_LONG).show();
 
             }
         });

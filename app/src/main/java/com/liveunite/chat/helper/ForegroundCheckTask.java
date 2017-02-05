@@ -33,7 +33,7 @@ public class ForegroundCheckTask extends AsyncTask<Context,Void,Boolean> {
         for(ActivityManager.RunningAppProcessInfo appProcessInfo:appProcesses){
             if(appProcessInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND){
                 if(appProcessInfo.processName.equals(liveUnitePaackge)){
-                    Log.d("ForegroundTask"," foreground process := "+appProcessInfo.processName);
+                    //Log.d("ForegroundTask"," foreground process := "+appProcessInfo.processName);
                     return true;
                 }
 
@@ -49,7 +49,7 @@ public class ForegroundCheckTask extends AsyncTask<Context,Void,Boolean> {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             List<ActivityManager.RunningAppProcessInfo> runningProcesses = am.getRunningAppProcesses();
             for (ActivityManager.RunningAppProcessInfo processInfo : runningProcesses) {
-                Log.d("ForegroundCheck","process imp"+processInfo.importance+" process "+processInfo.processName);
+                //Log.d("ForegroundCheck","process imp"+processInfo.importance+" process "+processInfo.processName);
                 if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
                     for (String activeProcess : processInfo.pkgList) {
                         if (activeProcess.equals(context.getPackageName())) {

@@ -120,18 +120,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(CREATE_MESSAGE_TABLE);
-        Log.d(TAG, "Created Message Table");
+        //Log.d(TAG, "Created Message Table");
         sqLiteDatabase.execSQL(CREATE_GCM_REGISTRATIONS);
-        Log.d(TAG, "Created GCM Registrations Table");
+        //Log.d(TAG, "Created GCM Registrations Table");
         sqLiteDatabase.execSQL(CREATE_CHAT_ROOMS);
-        Log.d(TAG, "Created Chat Rooms");
+        //Log.d(TAG, "Created Chat Rooms");
 
     }
 
     private ContentValues getCVObject(LiveUniteMessage message) {
 
         ContentValues contentValues = new ContentValues();
-        Log.d(TAG, "msg:" + message.message + " type:" + message.chatType + " sent:" + message.isSent + " del:" + message.isDelivered + " seen " + message.isSeen);
+        //Log.d(TAG, "msg:" + message.message + " type:" + message.chatType + " sent:" + message.isSent + " del:" + message.isDelivered + " seen " + message.isSeen);
         contentValues.put(COL_CHAT_TYPE, message.chatType);
         contentValues.put(COL_CHAT_ID, message.chatId);
         contentValues.put(COL_CHAT_ROOM_ID_MESSAGE_TABLE, message.chatRoomID);
@@ -187,9 +187,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             if (getGcmID(gcmRegistration.receiverID).length() == 0) {
                 long id = db.insert(TABLE_GCM_REGISTRATIONS, null, getCVObject(gcmRegistration));
-                Log.d(TAG, "Written Gcm Id " + id);
+                //Log.d(TAG, "Written Gcm Id " + id);
             } else {
-                Log.d(TAG, "Updating the old registrations");
+                //Log.d(TAG, "Updating the old registrations");
                 updateGcmRegistration(gcmRegistration);
             }
 
@@ -207,14 +207,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long id = db.update(TABLE_GCM_REGISTRATIONS, getCVObject(registration), selection, selectionArgs);
 
         if (id > 0) {
-            Log.d(TAG, "Successfully Updated Gcm Id");
+            //Log.d(TAG, "Successfully Updated Gcm Id");
         }
 
     }
 
     public String getGcmID(String receiverID) {
 
-        Log.d(TAG, " getGcmID for " + receiverID);
+        //Log.d(TAG, " getGcmID for " + receiverID);
         SQLiteDatabase db = getReadableDatabase();
         String selection = COL_RECEIVER_ID + " = ?";
         String[] cols = {COL_RECEIVER_ID, COL_GCM_ID};
@@ -223,10 +223,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.query(TABLE_GCM_REGISTRATIONS, cols, selection, selectionArgs, null, null, null);
         cursor.moveToFirst();
         if (cursor.getCount() > 0) {
-            Log.d(TAG, "gcm cursor count " + cursor.getCount());
+            //Log.d(TAG, "gcm cursor count " + cursor.getCount());
             gcmID = cursor.getString(cursor.getColumnIndex(COL_GCM_ID));
         }
-        Log.d(TAG, "getGcmID() returning " + gcmID);
+        //Log.d(TAG, "getGcmID() returning " + gcmID);
         return gcmID;
     }
 
@@ -242,7 +242,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor.getCount() > 0) {
             commChannel = cursor.getString(cursor.getColumnIndex(COL_COMM_CHANNEL));
         }
-        Log.d(TAG, "getCommChannel() returning " + commChannel);
+        //Log.d(TAG, "getCommChannel() returning " + commChannel);
         return commChannel;
     }
 
@@ -278,7 +278,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long id = db.update(TABLE_GCM_REGISTRATIONS, getCVObject(t_reg), selection, selectionArgs);
 
         if (id > 0) {
-            Log.d(TAG, "Successfully Updated CommChannel");
+            //Log.d(TAG, "Successfully Updated CommChannel");
         }
     }
 
@@ -292,11 +292,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if (dataBaseListener != null)
                 dataBaseListener.onMessageAdded(message);
 
-            Log.d(TAG, "Inserted Messages");
+            //Log.d(TAG, "Inserted Messages");
         } else {
-            Log.d(TAG, "Cannot Insert Messages");
+            //Log.d(TAG, "Cannot Insert Messages");
         }
-        Log.d("LiveUniteDatabase", "===================INSERT MSG=======================");
+        //Log.d("LiveUniteDatabase", "===================INSERT MSG=======================");
         getDatabaseSnapshot();
 
     }
@@ -351,7 +351,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             hasMore = cursor.moveToNext();
         }
 
-        Log.d(TAG, "Read Messages Count " + messageArrayList.size());
+        //Log.d(TAG, "Read Messages Count " + messageArrayList.size());
         return messageArrayList;
     }
 
@@ -387,7 +387,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex(COL_IS_DELIVERED)));
         }
 
-        Log.d(TAG, "Read Messages ID: " + msg.chatId);
+        //Log.d(TAG, "Read Messages ID: " + msg.chatId);
         return msg;
 
     }
@@ -422,11 +422,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex(COL_IS_SEEN)),
                     cursor.getString(cursor.getColumnIndex(COL_IS_DELIVERED)));
 
-            Log.d(TAG, " query for type:" + messageType + " found " + msg.chatType);
+            //Log.d(TAG, " query for type:" + messageType + " found " + msg.chatType);
         }
 
 
-        //Log.d(TAG, "Read Messages ID: " + msg.chatId);
+        ////Log.d(TAG, "Read Messages ID: " + msg.chatId);
         return msg;
 
     }
@@ -444,10 +444,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (id > 0) {
             if (dataBaseListener != null)
                 dataBaseListener.onMessageRelocationOccurred(message);
-            Log.d(TAG, "Successfully Updated Sent Status");
+            //Log.d(TAG, "Successfully Updated Sent Status");
         }
 
-        Log.d("LiveUniteDatabase", "===================UPDATE SENT=======================");
+        //Log.d("LiveUniteDatabase", "===================UPDATE SENT=======================");
         getDatabaseSnapshot();
 
     }
@@ -469,10 +469,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (id > 0) {
             if (dataBaseListener != null)
                 dataBaseListener.onMessageRelocationOccurred(message);
-            Log.d(TAG, "Successfully Updated Delivery Status");
+            //Log.d(TAG, "Successfully Updated Delivery Status");
         }
 
-        Log.d("LiveUniteDatabase", "===================UPDATE DEL=======================");
+        //Log.d("LiveUniteDatabase", "===================UPDATE DEL=======================");
         getDatabaseSnapshot();
     }
 
@@ -510,7 +510,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             hasMore = cursor.moveToNext();
         }
 
-        Log.d(TAG, "Read Messages Count " + messageArrayList.size());
+        //Log.d(TAG, "Read Messages Count " + messageArrayList.size());
         return messageArrayList;
     }
 
@@ -543,7 +543,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             hasMore = cursor.moveToNext();
         }
 
-        Log.d("DatabaseHelper", " total unread " + unreadCount);
+        //Log.d("DatabaseHelper", " total unread " + unreadCount);
         return unreadCount;
 
     }
@@ -562,10 +562,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (id > 0) {
             if (dataBaseListener != null)
                 dataBaseListener.onMessageRelocationOccurred(message);
-            Log.d(TAG, "Successfully Updated Seen Status");
+            //Log.d(TAG, "Successfully Updated Seen Status");
         }
 
-        Log.d("LiveUniteDatabase", "===================UPDATE SEEN=======================");
+        //Log.d("LiveUniteDatabase", "===================UPDATE SEEN=======================");
         getDatabaseSnapshot();
 
     }
@@ -581,7 +581,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if (dataBaseListener != null) {
                 dataBaseListener.onMessageDelete(sender_id);
             }
-            Log.d(TAG, "Successfully Deleted Messages");
+            //Log.d(TAG, "Successfully Deleted Messages");
         }
 
     }
@@ -591,7 +591,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         long id = db.insert(TABLE_CHAT_ROOMS, null, getCVObject(model));
         if (id > 0) {
-            Log.d(TAG, "Inserted ChatRoom");
+            //Log.d(TAG, "Inserted ChatRoom");
         }
 
         if (dataBaseListener != null)
@@ -607,7 +607,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long id = db.update(TABLE_CHAT_ROOMS, getCVObject(model), selection, selectionArgs);
 
         if (id > 0) {
-            Log.d(TAG, "Successfully Updated ChatRoom");
+            //Log.d(TAG, "Successfully Updated ChatRoom");
         }
 
         if (dataBaseListener != null)
@@ -701,7 +701,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         }
 
-        Log.d(TAG, "read " + chatRooms.size() + " Chat Rooms");
+        //Log.d(TAG, "read " + chatRooms.size() + " Chat Rooms");
         return chatRooms;
     }
 
@@ -712,7 +712,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         long id = db.delete(TABLE_CHAT_ROOMS, selection, selectionArgs);
         if (id > 0) {
-            Log.d(TAG, "deleted chat room");
+            //Log.d(TAG, "deleted chat room");
         }
 
         deleteMessagesFromChatRoom(roomId);
@@ -724,9 +724,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void getDatabaseSnapshot() {
         ArrayList<LiveUniteMessage> messages = readMessages();
-        Log.d("LiveUniteDatabase", "===================NOW=======================");
+        //Log.d("LiveUniteDatabase", "===================NOW=======================");
         for (LiveUniteMessage ms : messages) {
-            Log.d("LiveUniteDatabase", "chatRoomId: " + ms.chatRoomID + " msg " + ms.message + " type: " + ms.chatType + " isSent " + ms.isSent + " isDel " + ms.isDelivered + " isSeen " + ms.isSeen);
+            //Log.d("LiveUniteDatabase", "chatRoomId: " + ms.chatRoomID + " msg " + ms.message + " type: " + ms.chatType + " isSent " + ms.isSent + " isDel " + ms.isDelivered + " isSeen " + ms.isSeen);
         }
     }
 
@@ -793,7 +793,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         long id = db.delete(TABLE_MESSAGE, selction, selectionArgs);
 
-        Log.d(TAG, "Deleted Chat for Chat Room " + chatRoomId);
+        //Log.d(TAG, "Deleted Chat for Chat Room " + chatRoomId);
 
     }
 }

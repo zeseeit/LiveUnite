@@ -222,7 +222,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (!task.isSuccessful()) {
-                    Log.e(TAG, "Unable to login in firebase " + task.getException() + " " + task.getResult());
+                    //Log.e(TAG, "Unable to login in firebase " + task.getException() + " " + task.getResult());
                 }
             }
         });

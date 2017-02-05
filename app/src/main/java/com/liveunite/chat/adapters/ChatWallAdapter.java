@@ -75,7 +75,7 @@ public class ChatWallAdapter extends RecyclerView.Adapter<ChatWallAdapter.ViewHo
 
     private void deleteChatRoom() {
 
-        Log.d("ChatWallAdapter", " deleting chat Room " + chatRooms.get(longPressedPos).chatRoomTitle);
+        //Log.d("ChatWallAdapter", " deleting chat Room " + chatRooms.get(longPressedPos).chatRoomTitle);
         ChatCentre.getInstance(context).submitAction(ChatCentre.FLAG_DELETE_CHAT_ROOM, chatRooms.get(longPressedPos).chatRoomId);
         notifyDataSetChanged();
     }
@@ -94,7 +94,7 @@ public class ChatWallAdapter extends RecyclerView.Adapter<ChatWallAdapter.ViewHo
 
     public void addChatRoom(ChatRoomModel roomModel) {
         this.chatRooms.add(roomModel);
-        Log.d("ChatWallAdapter", " added chat room");
+        //Log.d("ChatWallAdapter", " added chat room");
         notifyDataSetChanged();
     }
 

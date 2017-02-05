@@ -65,8 +65,8 @@ public class CheckInternetConnection {
     }
 
     public void showDialog() {
-       final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
+       final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle("No Internet Connectivity Found");
         alertDialogBuilder
                 .setMessage("Move to internet connection settings?")
@@ -95,8 +95,6 @@ public class CheckInternetConnection {
                 alertDialog.show();
             }
         });
-
-
 
     }
 }

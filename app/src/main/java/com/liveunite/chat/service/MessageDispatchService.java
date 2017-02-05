@@ -57,7 +57,7 @@ public class MessageDispatchService extends Service {
     private TimerTask dispatcherTask = new TimerTask() {
         @Override
         public void run() {
-            Log.d("MessageDispatch", "dispatcher Task Running...");
+            //Log.d("MessageDispatch", "dispatcher Task Running...");
 
             VolleyUtils.getInstance().cancelPendingRequests("dispatch460chatReq");
            dispatchPendings();
@@ -70,7 +70,7 @@ public class MessageDispatchService extends Service {
     public void onCreate() {
 
         super.onCreate();
-        Log.d(TAG, "onCreate()");
+        //Log.d(TAG, "onCreate()");
         mDbHelper = DatabaseHelper.getInstance(this);
         mChatCenter = ChatCentre.getInstance(this);
 
@@ -93,7 +93,7 @@ public class MessageDispatchService extends Service {
 
             send(msg);
             logChat(msg);
-            Log.d(TAG, "sending... msgID " + msg.chatId);
+            //Log.d(TAG, "sending... msgID " + msg.chatId);
 
         }
     }
@@ -123,7 +123,7 @@ public class MessageDispatchService extends Service {
                     @Override
                     public void onResponse(String response) {
 
-                        Log.d(TAG, " response " + response);
+                        //Log.d(TAG, " response " + response);
                         try {
 
                             JSONObject object = new JSONObject(response);
@@ -151,13 +151,13 @@ public class MessageDispatchService extends Service {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d(TAG, "volley Error " + error);
+                        //Log.d(TAG, "volley Error " + error);
                     }
                 }) {
 
             @Override
             public byte[] getBody() throws AuthFailureError {
-                Log.d(TAG, " body => " + jsonBody);
+                //Log.d(TAG, " body => " + jsonBody);
                 return jsonBody.getBytes();
             }
 
@@ -181,21 +181,21 @@ public class MessageDispatchService extends Service {
 
     private void logChat(final LiveUniteMessage message) {
 
-        Log.d("MessageDispatch"," chatID "+message.chatId);
+        //Log.d("MessageDispatch"," chatID "+message.chatId);
 
         StringRequest msgLogReq = new StringRequest(Request.Method.POST, Constants.SERVER.URL_UPLOAD_CHAT,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
-                        Log.d("Chat Upload ", "On Rep:- " + response);
+                        //Log.d("Chat Upload ", "On Rep:- " + response);
 
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("ChatUpload", "" + error);
+                        //Log.d("ChatUpload", "" + error);
                     }
                 }) {
             @Override

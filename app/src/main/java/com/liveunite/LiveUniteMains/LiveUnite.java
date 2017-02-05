@@ -2,6 +2,7 @@ package com.liveunite.LiveUniteMains;
 
 import android.app.Application;
 import android.content.Intent;
+import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -50,6 +51,7 @@ public class LiveUnite extends Application {
         startLiveReporterService();
 
         new Optimizer().logTime("LiveUnite: onCreate() > ");
+        MultiDex.install(this);
 
     }
 

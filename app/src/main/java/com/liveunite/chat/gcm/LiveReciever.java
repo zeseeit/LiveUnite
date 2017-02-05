@@ -15,7 +15,7 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 public class LiveReciever extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.i("gcm_debug", "PushReceiver onReceive called");
+        //Log.i("gcm_debug", "PushReceiver onReceive called");
 
         Bundle extras = intent.getExtras();
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(context);
@@ -24,11 +24,11 @@ public class LiveReciever extends BroadcastReceiver {
 
         if(!extras.isEmpty()){
             if(GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR.equals(msgType)){
-                Log.i("gcm_debug", "Message send error");
+                //Log.i("gcm_debug", "Message send error");
             }else if(GoogleCloudMessaging.MESSAGE_TYPE_DELETED.equals(msgType)){
-                Log.i("gcm_debug", "Message deleted");
+                //Log.i("gcm_debug", "Message deleted");
             }else if(GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(msgType)){
-                Log.i("gcm_debug", "Message received : " + extras.toString());
+                //Log.i("gcm_debug", "Message received : " + extras.toString());
             }
         }
     }

@@ -10,6 +10,9 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -71,6 +74,7 @@ public class PicturePreview extends AppCompatActivity implements View.OnClickLis
                 if (OpenCameraType.getInstance().isOpenPostCamera())
                 {
                     txtCaption.setHint(R.string.preview_textbox_hint_image);
+
                     txtCaption.setVisibility(View.VISIBLE);
                 }else
                 {
@@ -116,7 +120,11 @@ public class PicturePreview extends AppCompatActivity implements View.OnClickLis
                     locations.initiateLocationFetch();
 
                     if (locations.getLocationStatus()) {
-                        uploadFile(filename, type, txtCaption.getText().toString(), autodelete);
+
+                        String text = String.valueOf(txtCaption.getText().toString()).trim().replace("\"","&quot;");
+                        Log.d("UploadTest"," text "+text);
+                        uploadFile(filename, type, text, autodelete);
+
                         new ChangeActivity().change(context, HomeActivity.class);
                     }
                 }else

@@ -41,6 +41,8 @@ import com.liveunite.utils.Constant;
 import com.liveunite.utils.ExtraMethods;
 import com.squareup.picasso.Picasso;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -171,7 +173,7 @@ public abstract class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyV
                         Intent chatIntent = new Intent(context,ChatRoom.class);
                         chatIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         Bundle bundle = new Bundle();
-                        Log.d("FeedsAdapter"," fbId - "+feed.getId()+" dpUrl - "+feed.getDpUrl() + "title "+feed.getFirst_name()+" "+feed.getLast_name());
+                        //Log.d("FeedsAdapter"," fbId - "+feed.getId()+" dpUrl - "+feed.getDpUrl() + "title "+feed.getFirst_name()+" "+feed.getLast_name());
                         bundle.putString("fbId",getFbIdFromDpUrl(feed.getDpUrl()));
                         bundle.putString("dpUrl",feed.getDpUrl());
                         bundle.putString("title",feed.getFirst_name()+" "+feed.getLast_name());
@@ -191,7 +193,7 @@ public abstract class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyV
         private String getFbIdFromDpUrl(String dpUrl) {
 
             String fbId = dpUrl.replaceAll("\\D+","");
-            Log.d("FeedsAdapter","FbId "+fbId);
+            //Log.d("FeedsAdapter","FbId "+fbId);
             return fbId;
         }
 
@@ -285,7 +287,13 @@ public abstract class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyV
                 {
                     tvAge.setVisibility(View.GONE);
                 }
-                tvDiatance.setText(mFeedsResponse.getDistance());
+
+
+                if(Singleton.getInstance().getUserLocationModal().getLatitude()==0.0){
+                    tvDiatance.setText("---m");
+                }else{
+                    tvDiatance.setText(mFeedsResponse.getDistance());
+                }
                 tvTime.setText(mFeedsResponse.getTime());
                 tvTime.setVisibility(View.VISIBLE);
                 ivError.setVisibility(View.GONE);
@@ -293,7 +301,15 @@ public abstract class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyV
             }
             if (!mFeedsResponse.getCaption().isEmpty())
             {
-                tvCaption.setText(mFeedsResponse.getCaption());
+                String f_cap = "";
+                try {
+                     f_cap = new String(mFeedsResponse.getCaption().getBytes(), "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+                tvCaption.setText(f_cap);
+
                 tvCaption.setVisibility(View.VISIBLE);
             }else
             {

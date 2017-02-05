@@ -17,7 +17,7 @@
         android:visibility="invisible"
         android:padding="12dp"
         android:textColor="@color/colorAccent"
-        android:textSize="22sp"
+        android:textSize="18sp"
        android:layout_centerInParent="true"
         android:id="@+id/errorPanel"
         android:text="Location Problem"

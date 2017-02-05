@@ -37,6 +37,7 @@ public class Constants {
 
         String URL_UPLOAD_CHAT = BASE+"/saveMessage";
 
+        String URL_DELETE_ACCOUNT = BASE + "/deleteAccount";
     }
 
     public interface CHAT {

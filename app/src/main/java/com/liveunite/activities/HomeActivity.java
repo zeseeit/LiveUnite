@@ -1,5 +1,6 @@
 package com.liveunite.activities;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -8,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.design.widget.NavigationView;
@@ -72,7 +74,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("Optimization"," HomeActivity onCreate()");
+        //Log.d("Optimization"," HomeActivity onCreate()");
         setContentView(R.layout.activity_home);
         context = HomeActivity.this;
         homeActivity = this;
@@ -120,6 +122,38 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             case 1:
                 new ChangeActivity().change(context, AppSetting.class);
                 break;
+            case 2:
+                startEmailIntent();
+                break;
+            case 3:
+                rateLiveUnite();
+                break;
+        }
+    }
+
+    private void startEmailIntent() {
+
+        final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+        emailIntent.setType("plain/text");
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"tech@liveunite.com"});
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Help From LiveUnite");
+        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "May I Help You");
+       startActivity(Intent.createChooser(emailIntent, "Send Mail"));
+
+    }
+
+    private void rateLiveUnite() {
+
+        Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
+        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        try {
+            startActivity(goToMarket);
+        } catch (ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("http://play.google.com/store/apps/details?id=" + context.getPackageName())));
         }
     }
 

@@ -49,19 +49,19 @@ public class AppForegroundCheckService extends Service {
             boolean isForeground = new ForegroundCheckTask().isForeground(getApplicationContext());
 
             String notifiedType = LiveUnite.getInstance().getPreferenceManager().getNotifiedType();
-            Log.d("AppForegroundCheck", " isForeground " + isForeground);
+            //Log.d("AppForegroundCheck", " isForeground " + isForeground);
             if (isForeground) {
 
                 if (notifiedType.equals(Constants.USER.KEY_REPORT_TYPE_LAST_SEEN)) {
                     //send online status
-                    Log.d("AppForegroundCheck", "reporting Online");
+                    //Log.d("AppForegroundCheck", "reporting Online");
                     reportOnline();
                 }
 
             } else {
                 //send time and finish the task
                 if (notifiedType.equals(Constants.USER.KEY_REPORT_TYPE_ONLINE)) {
-                    Log.d("AppForegroundCheck", "reporting Last Seen");
+                    //Log.d("AppForegroundCheck", "reporting Last Seen");
                     reportLastSeen();
 
                 }
@@ -80,14 +80,14 @@ public class AppForegroundCheckService extends Service {
                     public void onResponse(String response) {
 
                         LiveUnite.getInstance().getPreferenceManager().setNotifiedType(Constants.USER.KEY_REPORT_TYPE_LAST_SEEN);
-                        Log.d("AppForegroundCheck", "Last Seen Rep:res-" + response);
+                        //Log.d("AppForegroundCheck", "Last Seen Rep:res-" + response);
 
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("AppForegroundCheck", "Last Seen" + error);
+                        //Log.d("AppForegroundCheck", "Last Seen" + error);
                     }
                 }) {
             @Override
@@ -121,14 +121,14 @@ public class AppForegroundCheckService extends Service {
                     public void onResponse(String response) {
 
                         LiveUnite.getInstance().getPreferenceManager().setNotifiedType(Constants.USER.KEY_REPORT_TYPE_ONLINE);
-                        Log.d("AppForegroundService", "On Rep:- " + response);
+                        //Log.d("AppForegroundService", "On Rep:- " + response);
 
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("AppForegroundService", "online:" + error);
+                        //Log.d("AppForegroundService", "online:" + error);
                     }
                 }) {
             @Override
@@ -158,7 +158,7 @@ public class AppForegroundCheckService extends Service {
         super.onCreate();
 
         if (mTimer == null) {
-            Log.d("AppForeGroundService","starting Reporter....");
+            //Log.d("AppForeGroundService","starting Reporter....");
             mTimer = new Timer();
             mTimer.scheduleAtFixedRate(timerTask, 0, 4000);
         }

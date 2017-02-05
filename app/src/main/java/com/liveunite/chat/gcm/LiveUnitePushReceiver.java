@@ -61,19 +61,19 @@ public class LiveUnitePushReceiver extends GcmListenerService {
         switch (PUSH_TYPE) {
 
             case Constants.PUSH.TYPE_NEW_MESSAGE:
-                Log.d(TAG, "handling New Message Arrival");
+                //Log.d(TAG, "handling New Message Arrival");
                 submitNewArrivalActionToCenter(payload);
 
                 break;
             case Constants.PUSH.TYPE_MESSAGE_DELIVERED:
 
-                Log.d(TAG, "handling Sent Message Delivery");
+                //Log.d(TAG, "handling Sent Message Delivery");
                 handleMessageDelivered(payload);
 
                 break;
             case Constants.PUSH.TYPE_MESSAGE_SEEN:
 
-                Log.d(TAG, "handling Sent Message Seen");
+                //Log.d(TAG, "handling Sent Message Seen");
                 handleMessageSeen(payload);
 
                 break;
@@ -84,7 +84,7 @@ public class LiveUnitePushReceiver extends GcmListenerService {
                 break;
             case Constants.PUSH.TYPE_TYPING:
 
-                Log.d(TAG, "handling Typing....info");
+                //Log.d(TAG, "handling Typing....info");
                 handleTyping(payload);
 
                 break;
@@ -92,7 +92,7 @@ public class LiveUnitePushReceiver extends GcmListenerService {
                 break;
         }
 
-        Log.d("ChatBox", " message received " + data.getString("payload"));
+        //Log.d("ChatBox", " message received " + data.getString("payload"));
         super.onMessageReceived(from, data);
 
     }
@@ -180,7 +180,7 @@ public class LiveUnitePushReceiver extends GcmListenerService {
 
         // to : the sender of message
         String to = DatabaseHelper.getInstance(this).getGcmID(msg.senderId);
-        Log.d(TAG, "to=>" + to);
+        //Log.d(TAG, "to=>" + to);
         // msg_id: same as message
         String msg_id = msg.chatId;
         // time: current time
@@ -198,7 +198,7 @@ public class LiveUnitePushReceiver extends GcmListenerService {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d(TAG, "response " + response);
+                        //Log.d(TAG, "response " + response);
                         try {
                             //response from gcm server
                             //{
@@ -224,13 +224,13 @@ public class LiveUnitePushReceiver extends GcmListenerService {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d(TAG, "volley Error " + error);
+                        //Log.d(TAG, "volley Error " + error);
                     }
                 }) {
 
             @Override
             public byte[] getBody() throws AuthFailureError {
-                Log.d(TAG, " body => " + jsonBody);
+                //Log.d(TAG, " body => " + jsonBody);
                 return jsonBody.getBytes();
             }
 
@@ -264,11 +264,11 @@ public class LiveUnitePushReceiver extends GcmListenerService {
             String chatRoomId = createChatId(selfId, object.getString("sender_id"),object.getString("type"));
             String receivedTime = LiveUniteTime.getInstance().getDateTime();
 
-            Log.d("PushReceiver", "ChatRoomId=>" + chatRoomId + " SenderId =>" + object.getString("sender_id"));
+            //Log.d("PushReceiver", "ChatRoomId=>" + chatRoomId + " SenderId =>" + object.getString("sender_id"));
 
             //Check for user commChannel [Blockings]
             if (DatabaseHelper.getInstance(this).getCommChannel(object.getString("sender_id")).equals(Constants.USER.VALUE_COMMUNICATION_CHANNEL_BLOCKED)) {
-                Log.d(TAG, "msg from blocked user");
+                //Log.d(TAG, "msg from blocked user");
                 return;
             }
 
@@ -296,7 +296,7 @@ public class LiveUnitePushReceiver extends GcmListenerService {
 
             if (!isForeground) {
 
-                Log.d("LiveUnitePushReceiver", " App Backgrounded.....Showing Notifications");
+                //Log.d("LiveUnitePushReceiver", " App Backgrounded.....Showing Notifications");
                 Intent chatWallIntent = new Intent(this, ChatWall.class);
                 chatWallIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //
@@ -315,7 +315,7 @@ public class LiveUnitePushReceiver extends GcmListenerService {
                 try {
                     homeActivity.updateToolbar();
                 } catch (Exception e) {
-                    Log.d("PushReceiver", "something went wrong.Cannot Update Toolbar Data");
+                    //Log.d("PushReceiver", "something went wrong.Cannot Update Toolbar Data");
                 }
             }
 

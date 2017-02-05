@@ -21,6 +21,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import okhttp3.MediaType;
@@ -97,8 +99,15 @@ public class UploadService extends IntentService {
             body = MultipartBody.Part.createFormData("uploaded_files", file.getName(), requestFile);
         }
 
+//
+//        String newEmoji = null;
+//        try {
+//            newEmoji = caption;//URLEncoder.encode(caption,"utf-8");
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
 
-        Log.d("UploadService"," locate at long:- "+Singleton.getInstance().getUserLocationModal().getLongitude()+" lat "+Singleton.getInstance().getUserLocationModal().getLatitude());
+        Log.d("UploadTest","reformatted emoji here "+caption );
 
         Call<ArrayList<UploadResponse>> call = upload.postImage(
                 body,
@@ -118,6 +127,9 @@ public class UploadService extends IntentService {
                 try {
 
                     if (response.body().size()>0) {
+
+                        Log.d("UploadTest"," response "+response.body().get(0).getMessage());
+
                         if (response.body().get(0).isSuccess().equals("1")) {
                             if (type!=Constant.TYPE_PROFILE_CATION_PHOTO && MomentsFragment.getMomentsFragment()!=null)
                             {

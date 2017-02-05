@@ -9,7 +9,7 @@ import android.util.Log;
 public class Optimizer {
 
     public void logTime(String currentPos){
-        Log.i("AppOptimizerTest"," At:"+currentPos+" Current Time: "+System.currentTimeMillis());
+        //Log.i("AppOptimizerTest"," At:"+currentPos+" Current Time: "+System.currentTimeMillis());
     }
 
 }
