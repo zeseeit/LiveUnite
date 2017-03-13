@@ -1,72 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/placeholder_background">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/placeholder_background">
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:orientation="vertical"
-        android:layout_centerVertical="true"
         android:weightSum="3">
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1">
 
             <ImageView
                 android:id="@+id/imgPreview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:adjustViewBounds="true"
+                android:cropToPadding="false"
                 android:maxHeight="400dp"
-                android:cropToPadding="false"/>
+                android:scaleType="fitXY" />
 
             <ImageView
                 android:id="@+id/play_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:src="@drawable/play_button"
-                android:layout_gravity="center"/>
+                android:visibility="gone" />
         </FrameLayout>
 
         <EditText
             android:id="@+id/preview_caption"
-            android:padding="@dimen/preview_textbox_padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="4"
-            android:hint="@string/preview_textbox_hint_image"
+            android:layout_weight="1"
             android:background="@color/white"
+            android:hint="@string/preview_textbox_hint_image"
+            android:maxLines="4"
+            android:padding="@dimen/preview_textbox_padding"
             android:textAlignment="center"
-            android:textSize="18sp"
-            android:layout_weight="1"/>
+            android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:background="#ffffff"
             android:orientation="horizontal"
-            android:weightSum="2"
-            android:paddingTop="15dp"
-            android:layout_weight="1">
+            android:weightSum="2">
 
             <ImageView
-                android:src="@drawable/ic_cross"
                 android:id="@+id/btnCancel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="?selectableItemBackground"
+                android:padding="8dp"
+                android:src="@drawable/cancel_camera_preview" />
 
             <ImageView
-                android:src="@drawable/ic_tick"
                 android:id="@+id/btnOk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="?selectableItemBackground"
+                android:padding="8dp"
+                android:src="@drawable/yes_camera_preview" />
 
         </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:padding="4dp"
+        android:id="@+id/color_filter_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/thumbnails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

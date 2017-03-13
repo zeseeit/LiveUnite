@@ -1,0 +1,27 @@
+Plan
+ > Retry failed uploads
+   : Architechture - 1 hrs
+     Code :        - 2 hrs
+
+ > color filter and frame to uploads
+     Architechture - 1 hrs
+     Code - 1 hrs
+
+ > Option to report files		[need api]
+     Architechture - 1 hrs
+     Code - 2 hrs
+
+ > Adding emojis in caption
+     Code change(Server) - 3 hrs
+
+ > camera ui fix
+     code - 4 hrs
+
+ > update status and profile pic	[need api]
+     architechture - 2 hrs
+     code - 4 hrs
+
+ > media upload enhancement 
+     code  - 2 hrs
+
+  

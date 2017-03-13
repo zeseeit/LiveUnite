@@ -7,6 +7,10 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.liveunite.LiveUniteMains.LiveUnite;
+import com.liveunite.Retry.MomentCacheModel;
+import com.liveunite.Retry.MomentsCache;
+import com.liveunite.chat.config.Constants;
+import com.liveunite.chat.helper.Segmentor;
 import com.liveunite.fragments.MomentsFragment;
 import com.liveunite.infoContainer.OpenCameraType;
 import com.liveunite.infoContainer.Singleton;
@@ -40,21 +44,23 @@ public class UploadService extends IntentService {
     IUploadFile upload = ServiceGenerator.createService(IUploadFile.class);
 
     int type;
-
+    private MomentsCache momentsCache;
+    private String currentUploading = "";
     public UploadService() {
         super(UploadService.class.getName());
+        momentsCache = new MomentsCache(LiveUnite.getInstance().getApplicationContext());
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        String fileName = intent.getStringExtra(Constant.UPLOAD_FILENAME);
+        String f = intent.getStringExtra(Constant.UPLOAD_FILENAME);
         String caption = intent.getStringExtra(Constant.UPLOAD_CAPTION);
+        boolean isRetrying = intent.getBooleanExtra("isRetry",false);
         File file =null;
-        if (fileName!=null)
-        {
+        if (f!=null){
+            String fileName = isRetrying ? Constants.RETRY_MOMENTS.DIR_CACHE_MOMENTS+f:f;
             file = new File(fileName);
-
-
+            Log.d("MomentsCache"," reading from "+file.getAbsolutePath());
              type = intent.getIntExtra(Constant.UPLOAD_TYPE, Constant.TYPE_PICTURE);
 
             boolean canDelete = intent.getBooleanExtra(Constant.UPLOAD_AUTODELETE, false);
@@ -97,17 +103,18 @@ public class UploadService extends IntentService {
         if (file!=null) {
             final RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
             body = MultipartBody.Part.createFormData("uploaded_files", file.getName(), requestFile);
+
+            // prepare for cache
+            currentUploading = file.getName();
+            momentsCache.cacheMoment(file);
+
+            momentsCache.setCacheMetaData(new MomentCacheModel(file.getName(),
+                    String.valueOf(Singleton.getInstance().getUserLocationModal().getLatitude()),
+                    String.valueOf(Singleton.getInstance().getUserLocationModal().getLongitude()),
+                    caption));
+
+            Log.d("MomentsCache"," cached Upload...");
         }
-
-//
-//        String newEmoji = null;
-//        try {
-//            newEmoji = caption;//URLEncoder.encode(caption,"utf-8");
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-
-        Log.d("UploadTest","reformatted emoji here "+caption );
 
         Call<ArrayList<UploadResponse>> call = upload.postImage(
                 body,
@@ -121,6 +128,7 @@ public class UploadService extends IntentService {
 
         Log.e("UploadServiceCameraType","User Id: - "+LiveUnite.getInstance().getPreferenceManager().getLiveUnitId()+" FbId : - " +
                 LiveUnite.getInstance().getPreferenceManager().getFbId());
+
         call.enqueue(new Callback<ArrayList<UploadResponse>>() {
             @Override
             public void onResponse(Call<ArrayList<UploadResponse>> call, Response<ArrayList<UploadResponse>> response) {
@@ -131,6 +139,7 @@ public class UploadService extends IntentService {
                         Log.d("UploadTest"," response "+response.body().get(0).getMessage());
 
                         if (response.body().get(0).isSuccess().equals("1")) {
+
                             if (type!=Constant.TYPE_PROFILE_CATION_PHOTO && MomentsFragment.getMomentsFragment()!=null)
                             {
                                 MomentsFragment.getMomentsFragment().uploadCompleted(true);
@@ -138,6 +147,9 @@ public class UploadService extends IntentService {
                             if (!OpenCameraType.getInstance().isOpenPostCamera()) {
                                 Singleton.getInstance().getUserDetails().setDpUrl(response.body().get(0).getUrl());
                             }
+
+                            momentsCache.clearCache(currentUploading);
+
                         }
                         if (canDelete)
                         {

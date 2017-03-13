@@ -42,29 +42,20 @@ public class LiveUnite extends Application {
     public void onCreate() {
         super.onCreate();
 
-        new Optimizer().logTime("LiveUnite: onCreate()");
+        System.loadLibrary("NativeImageProcessor");
 
         mInstance = this;
 
         registerGCM();
 
         startLiveReporterService();
-
-        new Optimizer().logTime("LiveUnite: onCreate() > ");
         MultiDex.install(this);
 
     }
 
     private void startLiveReporterService() {
-
-        new Optimizer().logTime("LiveUnite: > startLiveReporterService() ");
-
         Intent i = new Intent(this, AppForegroundCheckService.class);
         startService(i);
-
-        new Optimizer().logTime("LiveUnite: startLiveReporterService() >");
-
-
     }
 
     public static synchronized LiveUnite getInstance(){

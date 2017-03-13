@@ -29,16 +29,6 @@
             android:layout_alignParentRight="true"
             android:visibility="gone"/>
 
-        <ImageView
-            android:id="@+id/ivError"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_error_outline_black_24dp"
-            android:background="?selectableItemBackground"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:visibility="gone"
-            />
 
         <TextView
             android:text="10:20"
@@ -51,14 +41,28 @@
             />
 
     </RelativeLayout>
+<FrameLayout
+    android:layout_marginTop="8dp"
+    android:layout_gravity="center_horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/ivPhoto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp"
         android:src="@drawable/fbavatat"/>
+
+    <ImageView
+        android:id="@+id/ivError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/upload"
+        android:background="?selectableItemBackground"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        />
+</FrameLayout>
 
     <VideoView
         android:visibility="gone"

@@ -30,9 +30,13 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.liveunite.LiveUniteMains.LiveUnite;
+import com.liveunite.Retry.MomentsCache;
 import com.liveunite.activities.MediaActivity;
 import com.liveunite.chat.activities.ChatRoom;
+import com.liveunite.chat.config.Constants;
 import com.liveunite.chat.converters.FontManager;
+import com.liveunite.chat.gcm.LiveUnitePreferenceManager;
+import com.liveunite.chat.helper.Segmentor;
 import com.liveunite.models.FeedsResponse;
 import com.liveunite.R;
 import com.liveunite.infoContainer.Singleton;
@@ -41,6 +45,7 @@ import com.liveunite.utils.Constant;
 import com.liveunite.utils.ExtraMethods;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -67,6 +72,7 @@ public abstract class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyV
         this.postList = postList;
         this.context = context;
         this.size =size;
+
         //  mMediaController = new MediaController(context);
     }
 
@@ -217,8 +223,9 @@ public abstract class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyV
                     }
                 }else
                 {
-                    Picasso.with(context).load(mFeedsResponse.getFile()).
-                            resize(size,size).centerCrop().placeholder(R.drawable.fbavatat).into(ivPhoto);
+                    Uri uri = Uri.fromFile(mFeedsResponse.getFile());
+                    ivPhoto.setImageURI(uri);
+
                 }
 
 

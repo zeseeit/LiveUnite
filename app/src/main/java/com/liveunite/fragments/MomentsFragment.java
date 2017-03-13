@@ -25,9 +25,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.liveunite.LiveUniteMains.LiveUnite;
+import com.liveunite.Retry.MomentCacheModel;
+import com.liveunite.Retry.MomentsCache;
 import com.liveunite.activities.HomeActivity;
 import com.liveunite.activities.MapActivity;
 import com.liveunite.adapter.AdapterPosts;
+import com.liveunite.chat.config.Constants;
+import com.liveunite.chat.gcm.LiveUnitePreferenceManager;
+import com.liveunite.chat.helper.Segmentor;
 import com.liveunite.gps.GPSTracker;
 import com.liveunite.interfaces.LiveUniteApi;
 import com.liveunite.models.FeedsRequest;
@@ -147,6 +152,8 @@ public class MomentsFragment extends Fragment {
 
     private void setAdapter() {
         arrayList = new ArrayList<>();
+
+        // get the failed uploads and add them
         mAdapter = new AdapterPosts(context, arrayList, Singleton.getInstance().getScreenWidth()) {
             @Override
             public void distanceClick(FeedsResponse mFeedsResponse) {
@@ -156,23 +163,14 @@ public class MomentsFragment extends Fragment {
 
             @Override
             public void onRetry(FeedsResponse mFeedsResponse, int position) {
-                Intent intent = new Intent(context, UploadService.class);
-                intent.putExtra(Constant.UPLOAD_FILENAME, mFeedsResponse.getFile().getName());
-                intent.putExtra(Constant.UPLOAD_CAPTION, mFeedsResponse.getCaption().trim());
-                intent.putExtra(Constant.UPLOAD_AUTODELETE, false);
-                intent.putExtra(Constant.UPLOAD_TYPE, Constant.TYPE_PICTURE);
-                context.startService(intent);
+
                 if (arrayList.size() > position) {
-                    arrayList.remove(position);
-                    ((HomeActivity) context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mAdapter.notifyDataChanged();
-                        }
-                    });
+                    Log.d("MomentsFailedRetry"," onRetry Called");
+                    retryUploade(new MomentCacheModel(mFeedsResponse.getFile().getName(),String.valueOf(mFeedsResponse.getLatitude()),String.valueOf(mFeedsResponse.getLongitude()),mFeedsResponse.getCaption()));
                 }
             }
         };
+
         mAdapter.setLoadMoreListener(new AdapterPosts.OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
@@ -194,6 +192,16 @@ public class MomentsFragment extends Fragment {
 
     }
 
+    private void retryUploade(MomentCacheModel cacheModel){
+        Intent intent = new Intent(context,UploadService.class);
+        intent.putExtra(Constant.UPLOAD_FILENAME,cacheModel.file_name);
+        intent.putExtra(Constant.UPLOAD_CAPTION,cacheModel.caption);
+        intent.putExtra("isRetry",true);
+        intent.putExtra(Constant.UPLOAD_AUTODELETE,true);
+        intent.putExtra(Constant.UPLOAD_TYPE,Constant.TYPE_PICTURE);
+        context.startService(intent);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -208,8 +216,6 @@ public class MomentsFragment extends Fragment {
         feedsRequest.setFromLimit(index);
         feedsRequest.setToLimit(index + Constant.LOAD_FEEDS_LIMITS);
 
-
-
         Log.d("LocationTest", " long " + Singleton.getInstance().getUserLocationModal().getLongitude() + " lat " + Singleton.getInstance().getUserLocationModal().getLatitude());
         feedsRequest.setLongitude(Singleton.getInstance().getUserLocationModal().getLongitude());
         feedsRequest.setLatitude(Singleton.getInstance().getUserLocationModal().getLatitude());
@@ -223,7 +229,22 @@ public class MomentsFragment extends Fragment {
                 if (statusCode == 200 && response.isSuccessful() && response.body() != null) {
                     count++;
                     arrayList.clear();
-                    Log.e("Optimization", "Response " + response.body());
+
+                    LiveUnitePreferenceManager manager = new LiveUnitePreferenceManager(context);
+                    ArrayList<String> pendings =  new Segmentor().getParts(manager.getCachedItemNames(),'#');
+                    File f = null;
+                    FeedsResponse fr = new FeedsResponse();
+
+                    for(String n : pendings){
+                        fr.setCaption(manager.getCacheCaption(n));
+                        f = new File(Constants.RETRY_MOMENTS.DIR_CACHE_MOMENTS+new MomentsCache(context).getCacheModel(n).file_name);
+                        fr.setType(Constant.MEDIA_PHOTO_TYPE);
+                        fr.setFile(f);
+                        fr.setUploading(false);
+                        fr.setUploaded(false);
+                        arrayList.add(fr);
+                    }
+
                     arrayList.addAll(response.body());
                     if (arrayList.size() > 0) {
                         mAdapter.notifyDataChanged();
@@ -231,7 +252,6 @@ public class MomentsFragment extends Fragment {
                     }
                 } else {
                     Toast.makeText(context, "Please check your network connection", Toast.LENGTH_SHORT).show();
-                    Log.e("Optimization", " Response Error " + String.valueOf(response.code()));
                 }
                 if (swipeRefreshLayout.isRefreshing()) {
                     swipeRefreshLayout.setRefreshing(false);

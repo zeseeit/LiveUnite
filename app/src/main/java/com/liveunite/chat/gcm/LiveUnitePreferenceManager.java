@@ -297,4 +297,40 @@ public class LiveUnitePreferenceManager {
     public boolean isProfileOwner(){
         return pref.getBoolean("profileOwner",false);
     }
+
+    public void setCacheLatitude(String file_name, String latitude) {
+        editor.putString(file_name+"Lat",latitude);
+        editor.commit();
+    }
+
+    public void setCacheLongitude(String file_name, String longitude) {
+        editor.putString(file_name+"Lon",longitude);
+        editor.commit();
+    }
+
+    public void setCacheCaption(String file_name, String caption) {
+        editor.putString(file_name+"Cap",caption);
+        editor.commit();
+    }
+
+    public String getCacheLatitude(String file_name) {
+        return pref.getString(file_name+"Lat","");
+    }
+
+    public String getCacheLongitude(String file_name) {
+        return pref.getString(file_name+"Lon","");
+    }
+
+    public String getCacheCaption(String file_name) {
+        return pref.getString(file_name+"Cap","");
+    }
+
+    public String getCachedItemNames() {
+        return pref.getString("cachedItems","");
+    }
+
+    public void setCacheItemName(String s) {
+        editor.putString("cachedItems",s);
+        editor.commit();
+    }
 }

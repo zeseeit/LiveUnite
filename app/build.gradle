@@ -57,6 +57,7 @@ dependencies {
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.google.android.gms:play-services:9.6.1'
     compile 'com.google.android.gms:play-services-gcm:9.6.1'
+    compile 'com.github.zomato:androidphotofilters:1.0.1'
     //for chat
     compile 'com.mcxiaoke.volley:library:1.0.19'
 }

@@ -1,10 +1,16 @@
 package com.liveunite.chat.config;
 
+import android.os.Environment;
+
 /**
  * Created by Ankit on 12/19/2016.
  */
 
 public class Constants {
+
+    public interface RETRY_MOMENTS{
+        String DIR_CACHE_MOMENTS = Environment.getExternalStorageDirectory().getPath() + "/FailedMomentsUpload/";
+    }
 
     public interface CHAT_ROOM{
         int FLAG_ADDED_NEW = 7;
