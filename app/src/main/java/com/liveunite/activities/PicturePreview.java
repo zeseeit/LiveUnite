@@ -1,6 +1,7 @@
 package com.liveunite.activities;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -192,25 +193,43 @@ public class PicturePreview extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.btnOk:
 
-                // write back the last selected filter applied bitmap
-                writeBackMoments(selectedBitmap);
+                new Thread(){
+                    @Override
+                    public void run() {
+                        writeBackMoments(selectedBitmap);
+                    }
+                }.start();
+
+
 
                 if (OpenCameraType.getInstance().isOpenPostCamera())
                 {
                     UpdateLocations locations = new UpdateLocations(context);
                     locations.initiateLocationFetch();
                     if (locations.getLocationStatus()) {
-                        String text = String.valueOf(txtCaption.getText().toString()).trim().replace("\"","&quot;");
+                       final String text = String.valueOf(txtCaption.getText().toString()).trim().replace("\"","&quot;");
                         Log.d("UploadTest"," text "+text);
-                        uploadFile(filename, type, text, autodelete);
-                        new ChangeActivity().change(context, HomeActivity.class);
+                       final ProgressDialog pd = new ProgressDialog(this);
+                        pd.setMessage("Preparing Your Moment...");
+                        pd.show();
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                pd.dismiss();
+                                new ChangeActivity().change(context, HomeActivity.class);
+                                uploadFile(filename, type, text, autodelete);
+                                finish();
+                            }
+                        },10000);
+
                     }
 
                 }else
                 {
                     EditProfile.getInstance().changeDP(filename,type,autodelete);
                 }
-                finish();
+
                 break;
 
             case R.id.btnCancel:

@@ -333,4 +333,13 @@ public class LiveUnitePreferenceManager {
         editor.putString("cachedItems",s);
         editor.commit();
     }
+
+    public String getReportedPosts() {
+        return pref.getString("reportedPids","#");
+    }
+
+    public void setReportedPost(String s) {
+        editor.putString("reportedPids",s);
+        editor.commit();
+    }
 }

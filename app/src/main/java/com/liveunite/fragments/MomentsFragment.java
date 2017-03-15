@@ -230,6 +230,7 @@ public class MomentsFragment extends Fragment {
                     count++;
                     arrayList.clear();
 
+                    Log.d("DataTest"," response "+response.body().get(0).getPostId().toString());
                     LiveUnitePreferenceManager manager = new LiveUnitePreferenceManager(context);
                     ArrayList<String> pendings =  new Segmentor().getParts(manager.getCachedItemNames(),'#');
                     File f = null;

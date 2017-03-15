@@ -40,10 +40,10 @@ public class Constants {
 
         String URL_PROFILE_INFO = BASE+"/getUserProfile.php";
         String URL_USER_REPORT = BASE+"/reportUser";;
-
         String URL_UPLOAD_CHAT = BASE+"/saveMessage";
-
         String URL_DELETE_ACCOUNT = BASE + "/deleteAccount";
+        String URL_REPORT_POST = BASE + "/reportPost";
+        String SYNC_REPORTED_PIDS = BASE + "/getReportedPids";
     }
 
     public interface CHAT {

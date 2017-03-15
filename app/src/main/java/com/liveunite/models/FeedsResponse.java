@@ -69,6 +69,11 @@ public class FeedsResponse {
     @Expose
     private String id;
 
+    @SerializedName("postId")
+    @Expose
+    private String postId;
+
+
     @SerializedName("age")
     @Expose
     private String age;
@@ -112,6 +117,7 @@ public class FeedsResponse {
 
     @SerializedName("min")
     @Expose
+
     private String min="0";
 
     @SerializedName("hrs")
@@ -145,6 +151,8 @@ public class FeedsResponse {
     public String getId() {
         return id;
     }
+
+    public String getPostId(){return postId;}
 
     public String getAge() {
         return age;

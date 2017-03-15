@@ -32,11 +32,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.google.gson.JsonArray;
 import com.liveunite.LiveUniteMains.LiveUnite;
 import com.liveunite.adapter.DrawerListAdapter;
 import com.liveunite.chat.activities.ChatWall;
+import com.liveunite.chat.config.Constants;
 import com.liveunite.chat.converters.FontManager;
 import com.liveunite.chat.database.DatabaseHelper;
+import com.liveunite.chat.gcm.LiveUnitePreferenceManager;
+import com.liveunite.chat.helper.VolleyUtils;
 import com.liveunite.chat.service.AppForegroundCheckService;
 import com.liveunite.fragments.MomentsFragment;
 import com.liveunite.infoContainer.OpenCameraType;
@@ -49,7 +58,13 @@ import com.liveunite.opencamera.CameraActivity;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener, EditProfile.onDPchange {
 
@@ -82,6 +97,52 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         setArrayForNaviGation();
         initView();
         setNavigation();
+        syncReportedItems();
+    }
+
+    private void syncReportedItems() {
+        StringRequest syncReportedReq = new StringRequest(Request.Method.POST, Constants.SERVER.SYNC_REPORTED_PIDS, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //todo: write back the reported ids
+                handleSyncResponse(response);
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> mp = new HashMap<>();
+                mp.put("fbId",LiveUnite.getInstance().getPreferenceManager().getFbId());
+                return mp;
+            }
+        };
+
+        VolleyUtils.getInstance().addToRequestQueue(syncReportedReq,"syncReq",context);
+    }
+
+    private void handleSyncResponse(String response) {
+        Log.d("ReportTest"," response "+response);
+        try {
+            JSONObject jo = new JSONObject(response);
+            if(jo.getBoolean("hasResult")){
+                LiveUnitePreferenceManager preferenceManager = new LiveUnitePreferenceManager(context);
+                preferenceManager.setReportedPost("#");
+                JSONArray jr = jo.getJSONArray("results");
+                for(int i = 0 ;i<jr.length();i++){
+                    JSONObject _ro = (JSONObject) jr.get(i);
+                    preferenceManager.setReportedPost(preferenceManager.getReportedPosts()+_ro.getString("post_id")+"#");
+                }
+
+            }
+
+        } catch (JSONException e) {
+
+        }
     }
 
     @Override

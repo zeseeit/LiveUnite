@@ -5,7 +5,9 @@ package com.liveunite.adapter;
  */
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -16,6 +18,8 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.media.MediaBrowserCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.util.Log;
@@ -29,6 +33,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.liveunite.LiveUniteMains.LiveUnite;
 import com.liveunite.Retry.MomentsCache;
 import com.liveunite.activities.MediaActivity;
@@ -36,19 +45,27 @@ import com.liveunite.chat.activities.ChatRoom;
 import com.liveunite.chat.config.Constants;
 import com.liveunite.chat.converters.FontManager;
 import com.liveunite.chat.gcm.LiveUnitePreferenceManager;
+import com.liveunite.chat.helper.LiveUniteTime;
 import com.liveunite.chat.helper.Segmentor;
+import com.liveunite.chat.helper.VolleyUtils;
 import com.liveunite.models.FeedsResponse;
 import com.liveunite.R;
 import com.liveunite.infoContainer.Singleton;
 import com.liveunite.utils.ChangeActivity;
+import com.liveunite.utils.CheckInternetConnection;
 import com.liveunite.utils.Constant;
 import com.liveunite.utils.ExtraMethods;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -134,13 +151,14 @@ public abstract class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyV
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvDiatance, tvTime, tvName, tvCaption, tvAge ,tvChat;
+        TextView tvDiatance, tvTime, tvName, tvCaption, tvAge ,tvChat , tvReport;
         ImageView ivPhoto, ivError;
         ProgressBar progressBar;
         VideoView vvVideo;
         private Uri uri;
         private Context context;
         private Typeface typeface;
+        private LiveUnitePreferenceManager preferenceManager;
 
         MyViewHolder(View view, boolean b) {
 
@@ -153,6 +171,7 @@ public abstract class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyV
                 tvTime = (TextView) view.findViewById(R.id.tvTime);
                 tvCaption = (TextView) view.findViewById(R.id.tvCaption);
                 tvName = (TextView) view.findViewById(R.id.tvName);
+                tvReport = (TextView) view.findViewById(R.id.tvReport);
                 ivPhoto = (ImageView) view.findViewById(R.id.ivPhoto);
                 ivPhoto.getLayoutParams().height = Singleton.getInstance().getScreenWidth();
                 ivPhoto.getLayoutParams().width = Singleton.getInstance().getScreenWidth();
@@ -161,8 +180,17 @@ public abstract class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyV
                 vvVideo = (VideoView) view.findViewById(R.id.vvVideo);
                 progressBar = (ProgressBar) itemView.findViewById(R.id.pbUploading);
                 ivError = (ImageView)itemView.findViewById(R.id.ivError);
-
                 tvChat.setTypeface(typeface);
+                tvReport.setTypeface(typeface);
+
+                tvReport.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int position = getAdapterPosition();
+                        FeedsResponse feed = postList.get(position);
+                        confirmReporting(view,feed);
+                    }
+                });
 
                 tvChat.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -194,7 +222,96 @@ public abstract class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyV
             }
         }
 
+        private void confirmReporting(final View view,final FeedsResponse feed){
 
+            DialogInterface.OnClickListener downloaDialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+                        case DialogInterface.BUTTON_POSITIVE:
+                            reportPost(view,feed.getPostId(),LiveUnite.getInstance().getPreferenceManager().getFbId(),getFbIdFromDpUrl(feed.getDpUrl()));
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //dismiss dialog
+                            dialog.dismiss();
+                            break;
+                    }
+                }
+            };
+
+            AlertDialog.Builder builderDownloadAlert = new AlertDialog.Builder(context);
+            builderDownloadAlert.setTitle("Report Moment");
+            builderDownloadAlert.setMessage("Do Want To Report This Moment ? ").setPositiveButton("Report", downloaDialogClickListener)
+                    .setNegativeButton("Cancel", downloaDialogClickListener).show();
+
+        }
+
+
+        private void reportPost(View view, final String pid , final String selfFbId , final String cmpFbId){
+            // check internet connection and disable the button after click
+            StringRequest reportRequest = new StringRequest(Request.Method.POST, Constants.SERVER.URL_REPORT_POST, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+//{"error":false,"message":"Record Success"}
+
+                    try {
+                        JSONObject resObj = new JSONObject(response);
+                        if(!resObj.getBoolean("error")){
+                            addReportItemToSharedPref(pid);
+                            Toast.makeText(context,"Reported Post",Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                        // show error toast
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    HashMap<String ,String> mp = new HashMap<>();
+                    mp.put("userId", selfFbId);
+                    mp.put("cmpId", cmpFbId);
+                    mp.put("time", LiveUniteTime.getInstance().getDateTime());
+                    mp.put("postId",pid);
+                    return mp;
+                }
+            };
+
+            if(new CheckInternetConnection(context).isConnectedToInternet()){
+
+                VolleyUtils.getInstance().addToRequestQueue(reportRequest,"reportPost",context);
+                view.setVisibility(View.GONE);
+
+            }else{
+                Toast.makeText(context, "No Connectivity ", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
+        private void addReportItemToSharedPref(String item){
+            preferenceManager = new LiveUnitePreferenceManager(context);
+            //Log.d("ReportTest"," adding to sp "+item);
+            preferenceManager.setReportedPost(preferenceManager.getReportedPosts()+"#"+item);
+        }
+
+        private boolean amIReportedThisPost(String pid){
+            Log.d("ReportTest"," check for pid "+pid);
+            preferenceManager = new LiveUnitePreferenceManager(context);
+            ArrayList<String> r_pids = new Segmentor().getParts(preferenceManager.getReportedPosts(),'#');
+            Log.d("ReportTest"," reported posts ids "+r_pids.toString());
+                    for(String p:r_pids){
+                       // Log.d("ReportTest"," checking pid  "+p+" against "+pid);
+                        if(p.equals(pid))
+                            return true;
+                    }
+            return false;
+        }
 
         private String getFbIdFromDpUrl(String dpUrl) {
 
@@ -249,6 +366,8 @@ public abstract class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyV
                 vvVideo.setVideoURI(uri);
                 vvVideo.start();
             }
+
+
             if (mFeedsResponse.getFile()!=null)
             {
                 tvDiatance.setText("0m");
@@ -323,6 +442,14 @@ public abstract class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyV
                 tvCaption.setVisibility(View.GONE);
             }
             tvCaption.setText(mFeedsResponse.getCaption());
+
+
+            if(amIReportedThisPost(mFeedsResponse.getPostId())){
+                Log.d("ReportTest"," checking for report post "+mFeedsResponse.getId());
+                tvReport.setVisibility(View.GONE);
+            }else{
+                tvReport.setVisibility(View.VISIBLE);
+            }
 
             ivPhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
